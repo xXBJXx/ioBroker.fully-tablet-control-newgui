@@ -110000,7 +110000,189 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Checkbox":"../../node_modules/@mui/material/Checkbox/Checkbox.js","./checkboxClasses":"../../node_modules/@mui/material/Checkbox/checkboxClasses.js"}],"components/settings.tsx":[function(require,module,exports) {
+},{"./Checkbox":"../../node_modules/@mui/material/Checkbox/Checkbox.js","./checkboxClasses":"../../node_modules/@mui/material/Checkbox/checkboxClasses.js"}],"../../node_modules/alcalzone-shared/typeguards/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isArray = exports.isObject = void 0;
+/**
+ * Tests whether the given variable is a real object and not an Array
+ * @param it The variable to test
+ */
+
+function isObject(it) {
+  // This is necessary because:
+  // typeof null === 'object'
+  // typeof [] === 'object'
+  // [] instanceof Object === true
+  return Object.prototype.toString.call(it) === "[object Object]";
+}
+
+exports.isObject = isObject;
+/**
+ * Tests whether the given variable is really an Array
+ * @param it The variable to test
+ */
+
+function isArray(it) {
+  if (Array.isArray != null) return Array.isArray(it);
+  return Object.prototype.toString.call(it) === "[object Array]";
+}
+
+exports.isArray = isArray;
+},{}],"../../node_modules/iobroker-react/build/lib/hooks/useConnection.js":[function(require,module,exports) {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.useConnection = exports.ConnectionContext = void 0;
+const react_1 = __importDefault(require("react"));
+exports.ConnectionContext = react_1.default.createContext({});
+/**
+ * Hook to access the connection object once it is available. The component must be wrapped in an `IoBrokerApp` or one of its variants. Example:
+ * ```tsx
+ * import { useConnection } from "iobroker-react/hooks";
+ *
+ * const MyComponent: React.FC<MyAppProps> = (props) => {
+ *   const connection = useConnection();
+ *   const [done, setDone] = React.useState(false);
+ *
+ *   React.useEffect(() => {
+ *     connection
+ *       .sendTo(...)
+ *       .then(() => setDone(true));
+ *   }, []);
+ *
+ *   return done ? (
+ *     <div>done!</div>
+ *   ) : (
+ *     <div>not done yet!</div>
+ *   );
+ * };
+ * ```
+ */
+const useConnection = () => react_1.default.useContext(exports.ConnectionContext);
+exports.useConnection = useConnection;
+// TODO: Document customizing the event types
+
+},{"react":"../../node_modules/react/index.js"}],"../../node_modules/iobroker-react/build/lib/hooks/useIoBrokerState.js":[function(require,module,exports) {
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.useIoBrokerState = void 0;
+const typeguards_1 = require("alcalzone-shared/typeguards");
+const react_1 = __importDefault(require("react"));
+const useConnection_1 = require("./useConnection");
+function useIoBrokerState(options) {
+    const { id, writeId = id, subscribe = true, defaultValue, defaultAck = true, transform, } = options;
+    const [value, setValue] = react_1.default.useState(defaultValue);
+    const [ack, setAck] = react_1.default.useState(defaultAck);
+    const connection = (0, useConnection_1.useConnection)();
+    const updateValue = react_1.default.useCallback((state) => {
+        // While updating a value on the server, update it locally with ACK = false
+        // so the UI can show a response immediately
+        if ((0, typeguards_1.isObject)(state)) {
+            if ("val" in state)
+                setValue(state.val);
+            if ("ack" in state)
+                setAck(state.ack);
+        }
+        else {
+            setValue(state);
+            setAck(false);
+        }
+        // And update it on the server asynchronously
+        return connection.setState(writeId, state);
+    }, [connection, writeId]);
+    const onStateChange = react_1.default.useCallback((changedId, state) => {
+        if (state && state.ack && changedId === id) {
+            const value = state.val;
+            setValue(transform ? transform(value) : value);
+            setAck(state.ack);
+        }
+    }, [id, transform]);
+    const loadInitial = react_1.default.useCallback(() => __awaiter(this, void 0, void 0, function* () {
+        var _a, _b;
+        // Only load the value
+        const initial = yield connection.getState(id);
+        const value = ((_a = initial === null || initial === void 0 ? void 0 : initial.val) !== null && _a !== void 0 ? _a : defaultValue);
+        const ack = (_b = initial === null || initial === void 0 ? void 0 : initial.ack) !== null && _b !== void 0 ? _b : defaultAck;
+        setValue(value);
+        setAck(ack);
+    }), [connection, defaultAck, defaultValue, id]);
+    react_1.default.useEffect(() => {
+        // Load value initially
+        if (subscribe) {
+            // After subscription, the value will be updated automatically
+            connection.subscribeState(id, onStateChange);
+        }
+        else {
+            loadInitial();
+        }
+        // componentWillUnmount
+        return () => {
+            if (subscribe)
+                connection.unsubscribeState(id, onStateChange);
+        };
+    }, [connection, id, loadInitial, onStateChange, subscribe]);
+    return [value, ack, updateValue];
+}
+exports.useIoBrokerState = useIoBrokerState;
+
+},{"alcalzone-shared/typeguards":"../../node_modules/alcalzone-shared/typeguards/index.js","react":"../../node_modules/react/index.js","./useConnection":"../../node_modules/iobroker-react/build/lib/hooks/useConnection.js"}],"components/Soket_Test.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Soket_Test = void 0;
+
+var react_1 = __importDefault(require("react")); // import { useGlobals } from 'iobroker-react/hooks';
+// import { Button } from '@mui/material';
+
+
+var useIoBrokerState_1 = require("../../../node_modules/iobroker-react/build/lib/hooks/useIoBrokerState");
+
+var Soket_Test = function Soket_Test() {
+  var _a = (0, useIoBrokerState_1.useIoBrokerState)({
+    id: 'fully_react_test.0.testVariable',
+    defaultValue: false
+  }),
+      myState = _a[0],
+      setMyState = _a[2];
+
+  react_1.default.useEffect(function () {
+    // Changes "my-adapter.0.my-state" in ioBroker to 2 after one second
+    setTimeout(function () {
+      return setMyState(false);
+    }, 1000);
+  }, []); // Renders 1 until the state was read and the value of the state afterwards
+
+  return react_1.default.createElement("div", null, myState);
+};
+
+exports.Soket_Test = Soket_Test;
+},{"react":"../../node_modules/react/index.js","../../../node_modules/iobroker-react/build/lib/hooks/useIoBrokerState":"../../node_modules/iobroker-react/build/lib/hooks/useIoBrokerState.js"}],"components/settings.tsx":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -110078,6 +110260,8 @@ var FormControlLabel_1 = __importDefault(require("@mui/material/FormControlLabel
 var Checkbox_1 = __importDefault(require("@mui/material/Checkbox"));
 
 var i18n_1 = __importDefault(require("@iobroker/adapter-react/i18n"));
+
+var Soket_Test_1 = require("./Soket_Test");
 
 var styles = function styles() {
   return {
@@ -110189,14 +110373,14 @@ function (_super) {
   Settings.prototype.render = function () {
     return react_1.default.createElement("form", {
       className: this.props.classes.tab
-    }, this.renderCheckbox('option1', 'option1'), react_1.default.createElement("br", null), this.renderInput('option2', 'option2', 'text'));
+    }, this.renderCheckbox('option1', 'option1'), react_1.default.createElement("br", null), react_1.default.createElement(Soket_Test_1.Soket_Test, null));
   };
 
   return Settings;
 }(react_1.default.Component);
 
 exports.default = (0, styles_1.withStyles)(styles)(Settings);
-},{"react":"../../node_modules/react/index.js","@mui/styles":"../../node_modules/@mui/styles/index.js","@mui/material/TextField":"../../node_modules/@mui/material/TextField/index.js","@mui/material/Input":"../../node_modules/@mui/material/Input/index.js","@mui/material/FormHelperText":"../../node_modules/@mui/material/FormHelperText/index.js","@mui/material/FormControl":"../../node_modules/@mui/material/FormControl/index.js","@mui/material/Select":"../../node_modules/@mui/material/Select/index.js","@mui/material/MenuItem":"../../node_modules/@mui/material/MenuItem/index.js","@mui/material/FormControlLabel":"../../node_modules/@mui/material/FormControlLabel/index.js","@mui/material/Checkbox":"../../node_modules/@mui/material/Checkbox/index.js","@iobroker/adapter-react/i18n":"../../node_modules/@iobroker/adapter-react/i18n.js"}],"i18n/en.json":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","@mui/styles":"../../node_modules/@mui/styles/index.js","@mui/material/TextField":"../../node_modules/@mui/material/TextField/index.js","@mui/material/Input":"../../node_modules/@mui/material/Input/index.js","@mui/material/FormHelperText":"../../node_modules/@mui/material/FormHelperText/index.js","@mui/material/FormControl":"../../node_modules/@mui/material/FormControl/index.js","@mui/material/Select":"../../node_modules/@mui/material/Select/index.js","@mui/material/MenuItem":"../../node_modules/@mui/material/MenuItem/index.js","@mui/material/FormControlLabel":"../../node_modules/@mui/material/FormControlLabel/index.js","@mui/material/Checkbox":"../../node_modules/@mui/material/Checkbox/index.js","@iobroker/adapter-react/i18n":"../../node_modules/@iobroker/adapter-react/i18n.js","./Soket_Test":"components/Soket_Test.tsx"}],"i18n/en.json":[function(require,module,exports) {
 module.exports = {
   "fully_react_test adapter settings": "Adapter settings for fully_react_test",
   "option1": "option1",
@@ -110380,7 +110564,49 @@ function (_super) {
 
 exports.default = (0, styles_1.withStyles)(styles)(App);
 },{"react":"../../node_modules/react/index.js","@mui/styles":"../../node_modules/@mui/styles/index.js","@iobroker/adapter-react/GenericApp":"../../node_modules/@iobroker/adapter-react/GenericApp.js","./components/settings":"components/settings.tsx","./i18n/en.json":"i18n/en.json","./i18n/de.json":"i18n/de.json","./i18n/ru.json":"i18n/ru.json","./i18n/pt.json":"i18n/pt.json","./i18n/nl.json":"i18n/nl.json","./i18n/fr.json":"i18n/fr.json","./i18n/it.json":"i18n/it.json","./i18n/es.json":"i18n/es.json","./i18n/pl.json":"i18n/pl.json","./i18n/zh-cn.json":"i18n/zh-cn.json"}],"index.tsx":[function(require,module,exports) {
-"use strict";
+"use strict"; // import React from 'react';
+// import ReactDOM from 'react-dom';
+//
+// import { IoBrokerApp } from 'iobroker-react/app';
+// import { useAdapter, useGlobals, useI18n } from 'iobroker-react/hooks';
+// import type { Translations } from 'iobroker-react/i18n';
+//
+// // Load your translations
+// const translations: Translations = {
+// 	en: require('./i18n/en.json'),
+// 	de: require('./i18n/de.json'),
+// 	ru: require('./i18n/ru.json'),
+// 	pt: require('./i18n/pt.json'),
+// 	nl: require('./i18n/nl.json'),
+// 	fr: require('./i18n/fr.json'),
+// 	it: require('./i18n/it.json'),
+// 	es: require('./i18n/es.json'),
+// 	pl: require('./i18n/pl.json'),
+// };
+//
+// // This is the main component of your adapter/UI
+// // In this example, it renders an information if your adapter process is currently running.
+// const Root: React.FC = React.memo(() => {
+// 	// The alive variable is synchronized with the state `system.adapter.my-adapter.0.alive`
+// 	const { alive } = useAdapter();
+// 	const { namespace } = useGlobals();
+// 	const { translate: _ } = useI18n();
+//
+// 	return (
+// 		<>
+// 			<h1>{_('Hello World!')}</h1>
+// 			The adapter {namespace} is {alive ? 'running' : 'not running'}.
+// 		</>
+// 	);
+// });
+//
+// // Render the main component in an ioBroker app wrapper, which provides everything needed to communicate with ioBroker
+// ReactDOM.render(
+// 	<IoBrokerApp name="my-adapter" translations={translations}>
+// 		<Root />
+// 	</IoBrokerApp>,
+// 	document.getElementById('root'),
+// );
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -110447,7 +110673,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57213" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59924" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

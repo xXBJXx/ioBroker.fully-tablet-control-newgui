@@ -10,6 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import I18n from '@iobroker/adapter-react/i18n';
+import TestComponent from './testComponent';
 
 const styles = (): Record<string, CreateCSSProperties> => ({
 	input: {
@@ -131,7 +132,8 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 			<form className={this.props.classes.tab}>
 				{this.renderCheckbox('option1', 'option1')}
 				<br />
-				{this.renderInput('option2', 'option2', 'text')}
+				<TestComponent></TestComponent>
+				{/*{this.renderInput('option2', 'option2', 'text')}*/}
 			</form>
 		);
 	}
