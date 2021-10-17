@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import I18n from '@iobroker/adapter-react/i18n';
-import TestComponent from './testComponent';
+import { TestComponent } from './testComponent';
 
 const styles = (): Record<string, CreateCSSProperties> => ({
 	input: {
