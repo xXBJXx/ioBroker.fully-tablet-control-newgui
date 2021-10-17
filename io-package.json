@@ -1,0 +1,94 @@
+{
+	"common": {
+		"name": "fully_react_test",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "Fully React test",
+		"titleLang": {
+			"en": "Fully React test",
+			"de": "Fully React test",
+			"ru": "Fully React test",
+			"pt": "Fully React test",
+			"nl": "Fully React test",
+			"fr": "Fully React test",
+			"it": "Fully React test",
+			"es": "Fully React test",
+			"pl": "Fully React test",
+			"zh-cn": "Fully React test"
+		},
+		"desc": {
+			"en": "fully_react_test",
+			"de": "fully_react_test",
+			"ru": "fully_react_test",
+			"pt": "fully_react_test",
+			"nl": "fully_react_test",
+			"fr": "fully_react_test",
+			"it": "fully_react_test",
+			"es": "fully_react_test",
+			"pl": "fully_react_test",
+			"zh-cn": "fully_react_test"
+		},
+		"authors": ["xXBJXx <issi.dev.iobroker@gmail.com>"],
+		"keywords": ["ioBroker", "template", "Smart Home", "home automation"],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "build/main.js",
+		"icon": "fully_react_test.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.fully_react_test/main/admin/fully_react_test.png",
+		"readme": "https://github.com/xXBJXx/ioBroker.fully_react_test/blob/main/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "general",
+		"compact": true,
+		"connectionType": "local",
+		"dataSource": "poll",
+		"materialize": true,
+		"dependencies": [
+			{
+				"js-controller": ">=2.0.0"
+			}
+		]
+	},
+	"native": {
+		"option1": true,
+		"option2": "42"
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"role": "indicator.connected",
+				"name": "Device or service connected",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		}
+	]
+}
