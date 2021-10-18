@@ -1,5 +1,21 @@
 {
-	"fully_react_test adapter settings": "Adapter settings for fully_react_test",
-	"option1": "option1",
-	"option2": "option2"
+  "fully_react_test adapter settings": "Adapter settings for fully_react_test",
+  "interval": "Interval",
+  "intervalTooltip": "Please enter the interval here, the smallest interval is 30s",
+  "GitHub_Issues": "If you have any problems, please create an issues here",
+  "docu": "Click here for the adapter documentation",
+  "addDevice": "add Device",
+  "tabletTooltip": "Here the name of the tablet comes in e.g. Samsung",
+  "tabletName": "Tablet Name",
+  "tooltipIp": "Ip4 address",
+  "ipAddress": "Ip Address",
+  "tooltipPort": "here comes the port in default is 2323",
+  "port": "Port",
+  "tooltipPassword": "password comes in here",
+  "Password": "Password",
+  "active": "Activate the control for this configuration",
+  "LoginHelper": "Login Helper",
+  "FullyLogin": "Login for Fully Kiosk Browser",
+  "configSuccess": "The config is completely filled in",
+  "configFailed": "the config was not filled out completely"
 }
