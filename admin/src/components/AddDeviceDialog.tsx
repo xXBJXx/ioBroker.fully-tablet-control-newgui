@@ -1,41 +1,48 @@
-import { Button, Fab, Grid, makeStyles, Paper, Tooltip } from '@material-ui/core/';
-import React, { useState } from 'react';
+import { Button, Grid, Paper } from '@mui/material';
+import React from 'react';
 import { useI18n, useDialogs } from 'iobroker-react/hooks';
 import { TabletNameInput } from './Login/TabletNameInput';
-import { clearConfig } from '../lib/createConfig';
+import { clearConfig, fullConfig } from '../lib/createConfig';
+import { useIoBrokerTheme } from 'iobroker-react/hooks';
 
-const useStyles = makeStyles((theme) => ({
-	buttonGrid: {
-		display: 'flex',
-		justifyContent: 'center',
-	},
-	buttonPaper: {
-		height: '110px',
-		padding: '32px',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-		flexWrap: 'nowrap',
-		flexDirection: 'column',
-	},
-}));
+export interface AddDeviceDialogProps {
+	onChange: (value: any) => void;
+	native: ioBroker.AdapterConfig;
+}
 
-export const AddDeviceDialog = ({ onChange }) => {
-	const classes = useStyles();
+export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({ native, onChange }) => {
 	const { translate: _ } = useI18n();
 	const { showModal } = useDialogs();
+	const [themeName, setTheme] = useIoBrokerTheme();
+
+	const BgColor = () => {
+		switch (themeName) {
+			case 'dark':
+				return '#3b3b3b66';
+			case 'blue':
+				return '#3e464a61';
+			case 'light':
+				return '#fff';
+			case 'colored':
+				return '#fff';
+		}
+	};
 
 	const Config = () => {
 		return (
 			<React.Fragment>
-				<TabletNameInput onNameChange={(options, value) => onChange(options, value)} />
+				<TabletNameInput />
 			</React.Fragment>
 		);
 	};
 
 	const askUser = React.useCallback(async () => {
 		if (await showModal('Tablet Config', Config())) {
-			console.log(open);
+			const newNative = native.tablets;
+			newNative.push(fullConfig);
+
+			onChange(newNative);
+			clearConfig();
 			console.log('yes');
 		} else {
 			clearConfig();
@@ -45,9 +52,22 @@ export const AddDeviceDialog = ({ onChange }) => {
 
 	return (
 		<React.Fragment>
-			<Grid className={classes.buttonGrid} container spacing={0}>
-				<Paper className={classes.buttonPaper} elevation={24}>
-					<Button variant="contained" size="large" color={'primary'} onClick={askUser}>
+			<Grid container spacing={0} sx={{ display: 'flex', justifyContent: 'center' }}>
+				<Paper
+					elevation={10}
+					sx={{
+						height: 110,
+						padding: 4,
+						borderRadius: 5,
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						flexWrap: 'nowrap',
+						flexDirection: 'column',
+						bgcolor: BgColor,
+					}}
+				>
+					<Button variant="contained" size="large" color={'primary'} sx={{ mr: 4, ml: 4 }} onClick={askUser}>
 						{_('addDevice')}
 					</Button>
 				</Paper>

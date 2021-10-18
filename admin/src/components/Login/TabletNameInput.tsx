@@ -1,10 +1,9 @@
-import I18n from '@iobroker/adapter-react/i18n';
 import React, { useState } from 'react';
-import { FormControl, TextField, Tooltip } from '@material-ui/core';
+import { FormControl, TextField, Tooltip } from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
 import { createLoginConfig, fullConfig } from '../../lib/createConfig';
 
-export const TabletNameInput = ({ onNameChange }) => {
+export const TabletNameInput = () => {
 	const [name, setName] = useState('');
 	const [error, setError] = useState(true);
 
@@ -34,8 +33,8 @@ export const TabletNameInput = ({ onNameChange }) => {
 						required
 						error={error}
 						label={_('tabletName')}
+						color="success"
 						value={fullConfig.config.name ? fullConfig.config.name : name}
-						focused
 						placeholder="Samsung"
 						onChange={(event) => {
 							handleChange(event);

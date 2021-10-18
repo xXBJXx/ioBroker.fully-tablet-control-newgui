@@ -4,8 +4,34 @@
 declare global {
 	namespace ioBroker {
 		interface AdapterConfig {
-			option1: boolean;
-			option2: string;
+			tablets: configItem[];
+		}
+
+		interface configItem {
+			id: number;
+			config: configObj;
+		}
+
+		interface configObj {
+			active: boolean;
+			interval: number;
+			name: string;
+			Login: Login;
+			charger: Charger;
+		}
+
+		interface Login {
+			ip: string;
+			port: number;
+			password: string;
+		}
+
+		interface Charger {
+			active: boolean;
+			chargerId: string;
+			powerMode: false | true | 'off';
+			loadStart: number;
+			loadStop: number;
 		}
 	}
 }
