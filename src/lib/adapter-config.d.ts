@@ -8,7 +8,7 @@ declare global {
 		}
 
 		interface configItem {
-			id: number;
+			id: string;
 			config: configObj;
 		}
 
@@ -18,6 +18,10 @@ declare global {
 			name: string;
 			Login: Login;
 			charger: Charger;
+			brightness: Brightness;
+			screenSaver: ScreenSaver;
+			telegram: Telegram;
+			motion: Motion;
 		}
 
 		interface Login {
@@ -33,6 +37,47 @@ declare global {
 			loadStart: number;
 			loadStop: number;
 		}
+
+		interface Brightness {
+			active: boolean;
+			screen_on: boolean;
+			timeMode: true;
+			interval: number;
+			astroSelectDay: string;
+			astroSelectNight: string;
+			dayTime: number;
+			midTime: number;
+			nightTime: number;
+			dayBrightness: number;
+			midTimeBrightness: number;
+			nightBrightness: number;
+			loadingLowering: number;
+		}
+
+		interface ScreenSaver {
+			active: boolean;
+			screenSaverDeletion: boolean;
+			screenSaverName: string;
+			url: string;
+			screenSaverMode: boolean;
+			time: number;
+		}
+
+		interface Telegram {
+			active: boolean;
+			telegramSelectMode: boolean;
+			telegramUserName: string;
+			multipleTelegramUserName: string[];
+		}
+
+		interface Motion {
+			active: boolean;
+			motionId: string;
+		}
+
+		// interface image_capture {}
+		//
+		// interface vis_view {}
 	}
 }
 

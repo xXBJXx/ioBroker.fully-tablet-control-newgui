@@ -1,9 +1,12 @@
 {
   "fully_react_test adapter settings": "Adapter settings for fully_react_test",
+  "Tablet Config": "create new Tablet",
   "interval": "Interval",
   "intervalTooltip": "Please enter the interval here, the smallest interval is 30s",
   "GitHub_Issues": "If you have any problems, please create an issues here",
   "docu": "Click here for the adapter documentation",
+  "add": "add",
+  "Cancel": "Cancel",
   "addDevice": "add Device",
   "tabletTooltip": "Here the name of the tablet comes in e.g. Samsung",
   "tabletName": "Tablet Name",
@@ -15,7 +18,8 @@
   "Password": "Password",
   "active": "Activate the control for this configuration",
   "LoginHelper": "Login Helper",
-  "FullyLogin": "Login for Fully Kiosk Browser",
-  "configSuccess": "The config is completely filled in",
-  "configFailed": "the config was not filled out completely"
+  "FullyLogin": "Login for Fully Kiosk Browser Remote Admin",
+  "alertName": "Name is empty please enter a name",
+  "alertIp": "Ip is empty please specify an Ip",
+  "alertPassword": "Password is empty please enter a password"
 }

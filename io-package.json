@@ -64,6 +64,7 @@
 	"connectionType": "local",
 	"dataSource": "poll",
 	"materialize": true,
+	"messagebox": true,
 	"dependencies": [
 	  {
 		"js-controller": ">=2.0.0"
@@ -72,6 +73,26 @@
   },
   "native": {
 	"tablets": [
+	  {
+		"id": 0,
+		"config": {
+		  "active": false,
+		  "interval": 30,
+		  "name": "",
+		  "Login": {
+			"ip": "",
+			"port": 2323,
+			"password": ""
+		  },
+		  "charger": {
+			"active": false,
+			"chargerId": "",
+			"powerMode": "false",
+			"loadStart": 20,
+			"loadStop": 85
+		  }
+		}
+	  },
 	  {
 		"id": 0,
 		"config": {

@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { FormControl, TextField, Tooltip } from '@mui/material';
+import { TextField, Tooltip } from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
-import { createLoginConfig, fullConfig } from '../../lib/createConfig';
+import { createLoginConfig } from '../../lib/createConfig';
 
-export const TabletNameInput = () => {
+export const TabletNameInput = (): JSX.Element => {
 	const [name, setName] = useState('');
 	const [error, setError] = useState(true);
 
 	const { translate: _ } = useI18n();
 
-	const handleChange = (event) => {
+	const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
 		const newName = event.target.value;
-		// setName(newName);
+
 		if (newName !== '') {
 			setError(false);
 			setName((prevState) => (prevState = newName));
@@ -20,28 +20,25 @@ export const TabletNameInput = () => {
 		} else {
 			setName((prevState) => (prevState = ''));
 			createLoginConfig('name', newName);
-			console.log(name);
 			setError(true);
 		}
 	};
 
 	return (
 		<React.Fragment>
-			<FormControl variant="outlined">
-				<Tooltip title={_('tooltipIp')} arrow>
-					<TextField
-						required
-						error={error}
-						label={_('tabletName')}
-						color="success"
-						value={fullConfig.config.name ? fullConfig.config.name : name}
-						placeholder="Samsung"
-						onChange={(event) => {
-							handleChange(event);
-						}}
-					/>
-				</Tooltip>
-			</FormControl>
+			<Tooltip title={_('tooltipIp')} arrow>
+				<TextField
+					required
+					error={error}
+					label={_('tabletName')}
+					color="success"
+					value={name}
+					placeholder="Samsung"
+					onChange={(event) => {
+						handleChange(event);
+					}}
+				/>
+			</Tooltip>
 		</React.Fragment>
 	);
 };

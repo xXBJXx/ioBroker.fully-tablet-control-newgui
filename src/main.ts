@@ -33,14 +33,14 @@ class FullyReactTest extends utils.Adapter {
 
 		// The adapters config (in the instance object everything under the attribute "native") is accessible via
 		// this.config:
-		this.log.info('config option1: ' + this.config.option1);
-		this.log.info('config option2: ' + this.config.option2);
+		// this.log.info('config option1: ' + this.config.option1);
+		// this.log.info('config option2: ' + this.config.option2);
 
 		/*
-		For every state in the system there has to be also an object of type state
-		Here a simple template for a boolean variable named "testVariable"
-		Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-		*/
+    For every state in the system there has to be also an object of type state
+    Here a simple template for a boolean variable named "testVariable"
+    Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
+    */
 		await this.setObjectNotExistsAsync('testVariable', {
 			type: 'state',
 			common: {
@@ -61,9 +61,9 @@ class FullyReactTest extends utils.Adapter {
 		// this.subscribeStates('*');
 
 		/*
-			setState examples
-			you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-		*/
+      setState examples
+      you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
+    */
 		// the variable testVariable is set to true as command (ack=false)
 		await this.setStateAsync('testVariable', true);
 

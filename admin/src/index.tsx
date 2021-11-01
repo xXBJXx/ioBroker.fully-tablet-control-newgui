@@ -35,6 +35,7 @@ const SettingsPageContent: React.FC = React.memo(() => {
 	return (
 		<React.Fragment>
 			<AdapterHeader />
+			{/*<TestHook />*/}
 			<AddDeviceDialog native={settings} onChange={(value) => handleChange(value)} />
 		</React.Fragment>
 	);
