@@ -3,7 +3,7 @@
  */
 import React, { useState } from 'react';
 import { useI18n } from 'iobroker-react/hooks';
-import { createLoginConfig } from '../../lib/createConfig';
+import { createNewConfig } from '../../lib/createConfig';
 import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Tooltip } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
@@ -13,17 +13,14 @@ export interface PasswordInputProps {
 
 export const PasswordInput: React.FC<PasswordInputProps> = (): JSX.Element => {
 	const [values, setValues] = useState({
-		amount: '',
 		password: '',
-		weight: '',
-		weightRange: '',
 		showPassword: false,
 	});
 	const { translate: _ } = useI18n();
 
 	const handleChange = (prop: string) => (event: { target: { value: any } }) => {
 		setValues({ ...values, [prop]: event.target.value });
-		createLoginConfig('password', event.target.value);
+		createNewConfig('password', event.target.value);
 		// passwordObj('password', event.target.value);
 	};
 

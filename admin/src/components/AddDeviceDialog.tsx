@@ -5,7 +5,6 @@ import { clearConfig, fullConfig } from '../lib/createConfig';
 import { useIoBrokerTheme } from 'iobroker-react/hooks';
 import { LoginConfig } from './Login/LoginConfig';
 import theme from '@iobroker/adapter-react/Theme';
-import { TestHook } from './testHook';
 import { ConfigButton } from './ConfigButton';
 
 export interface AddDeviceDialogProps {
@@ -53,6 +52,7 @@ export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({ native, onChan
 		clearConfig();
 		setOpen(false);
 		setAddButton(true);
+		setValideConfig(false);
 	};
 
 	const handleValideConfig = (attr: string, value: boolean): void => {
@@ -107,7 +107,8 @@ export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({ native, onChan
 						}}
 					>
 						<LoginConfig valideConfig={(attr, value) => handleValideConfig(attr, value)} />
-						{valideConfig ? <ConfigButton /> : ''}
+						{/*{valideConfig ? <ConfigButton /> : ''}*/}
+						<ConfigButton />
 					</DialogContent>
 					<DialogActions>
 						<Button onClick={handleClickAdd} disabled={addButton}>

@@ -31,7 +31,7 @@ declare global {
 		}
 
 		interface Charger {
-			active: boolean;
+			chargerActive: boolean;
 			chargerId: string;
 			powerMode: false | true | 'off';
 			loadStart: number;

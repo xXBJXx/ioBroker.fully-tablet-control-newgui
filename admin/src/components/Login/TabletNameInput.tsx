@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Tooltip } from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
-import { createLoginConfig } from '../../lib/createConfig';
+import { createNewConfig } from '../../lib/createConfig';
 
 export const TabletNameInput = (): JSX.Element => {
 	const [name, setName] = useState('');
@@ -15,11 +15,11 @@ export const TabletNameInput = (): JSX.Element => {
 		if (newName !== '') {
 			setError(false);
 			setName((prevState) => (prevState = newName));
-			createLoginConfig('name', newName);
+			createNewConfig('name', newName);
 			// onNameChange('name', newName);
 		} else {
 			setName((prevState) => (prevState = ''));
-			createLoginConfig('name', newName);
+			createNewConfig('name', newName);
 			setError(true);
 		}
 	};

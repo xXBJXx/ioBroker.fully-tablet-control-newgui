@@ -74,7 +74,7 @@ export const LoginConfig: React.FC<LoginConfigProps> = ({ valideConfig }): JSX.E
 				container
 				spacing={3}
 				sx={{
-					marginTop: '5px',
+					marginTop: '10px',
 					paddingBottom: '15px',
 					alignItems: 'center',
 					justifyContent: 'space-around',
@@ -85,7 +85,7 @@ export const LoginConfig: React.FC<LoginConfigProps> = ({ valideConfig }): JSX.E
 			>
 				<TabletNameInput />
 				<IntervalInput />
-				<HelperButton loginHelperLink={LoginHelperLink} helperTooltipTitle="LoginHelper" />
+				<HelperButton helperLink={LoginHelperLink} helperTooltipTitle="LoginHelper" />
 			</Grid>
 			<Typography sx={{ textAlign: 'center', paddingBottom: '10px' }}>{_('FullyLogin')}</Typography>
 			<Grid

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Tooltip } from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
-import { createLoginConfig } from '../../lib/createConfig';
+import { createNewConfig } from '../../lib/createConfig';
 
 const min = 30;
 const max = 999;
@@ -23,7 +23,7 @@ export const IntervalInput = (): JSX.Element => {
 						if (newValue > max) newValue = max;
 						if (newValue < min) newValue = min;
 						setValue(newValue);
-						createLoginConfig('interval', newValue);
+						createNewConfig('interval', newValue);
 					}}
 				/>
 			</Tooltip>

@@ -12,7 +12,7 @@ export let fullConfig: ioBroker.configItem = {
 			password: '',
 		},
 		charger: {
-			active: false,
+			chargerActive: false,
 			chargerId: '',
 			powerMode: false,
 			loadStart: 20,
@@ -56,7 +56,7 @@ export let fullConfig: ioBroker.configItem = {
 	},
 };
 
-export const createLoginConfig = (attr: string, value: any): any => {
+export const createNewConfig = (attr: string, value: any): any => {
 	switch (attr) {
 		case 'name':
 			fullConfig.config.name = value;
@@ -82,6 +82,31 @@ export const createLoginConfig = (attr: string, value: any): any => {
 			fullConfig.config.Login.password = value;
 			// console.log(fullConfig);
 			break;
+		case 'chargerActive':
+			fullConfig.config.charger.chargerActive = value;
+			console.log(fullConfig);
+			break;
+		case 'chargerId':
+			fullConfig.config.charger.chargerId = value;
+			console.log(fullConfig);
+			break;
+		case 'powerMode':
+			fullConfig.config.charger.powerMode = value;
+			console.log(typeof value);
+			// console.log(value);
+			//
+			// console.log(fullConfig);
+			break;
+		case 'loadStart':
+			fullConfig.config.charger.loadStart = value;
+			// console.log(typeof value);
+			// console.log(`loadStart ${value}`);
+			// console.log(fullConfig);
+			break;
+		case 'loadStop':
+			fullConfig.config.charger.loadStop = value;
+			// console.log(fullConfig);
+			break;
 	}
 };
 
@@ -100,7 +125,7 @@ export const clearConfig = (): void => {
 				password: '',
 			},
 			charger: {
-				active: false,
+				chargerActive: false,
 				chargerId: '',
 				powerMode: false,
 				loadStart: 20,
@@ -143,4 +168,12 @@ export const clearConfig = (): void => {
 			// vis_view: {},
 		},
 	};
+};
+export const clearChargerConfig = (): void => {
+	console.log('Charger config input was deleted');
+
+	fullConfig.config.charger.chargerId = '';
+	fullConfig.config.charger.powerMode = false;
+	fullConfig.config.charger.loadStart = 20;
+	fullConfig.config.charger.loadStop = 85;
 };

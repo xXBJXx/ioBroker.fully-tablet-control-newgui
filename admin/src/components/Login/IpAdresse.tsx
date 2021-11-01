@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import { useI18n } from 'iobroker-react/hooks';
 import { FormControl, TextField, Tooltip } from '@mui/material';
-import { createLoginConfig } from '../../lib/createConfig';
+import { createNewConfig } from '../../lib/createConfig';
 
 const allowedInputRegex = /^\d*\.?\d*\.?\d*\.?\d*$/;
 const ipRegex = /^(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)(?:\.(?!$)|$)){4}$/; //regex from https://regex101.com/library/ChFXjy
@@ -20,7 +20,7 @@ export const IpAdresse = (): JSX.Element => {
 				// valid
 				setValide(false);
 				console.log('ip is a valid IP address');
-				createLoginConfig('ip', ipAddress);
+				createNewConfig('ip', ipAddress);
 			} else {
 				// invalid
 				console.log('ip is not a valid IP address');

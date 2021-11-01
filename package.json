@@ -20,7 +20,8 @@
   },
   "dependencies": {
 	"@iobroker/adapter-core": "^2.5.1",
-	"uuid": "^8.3.2"
+	"uuid": "^8.3.2",
+	"axios": "^0.24.0"
   },
   "devDependencies": {
 	"@alcalzone/release-script": "^3.4.1",
@@ -45,7 +46,6 @@
 	"@types/sinon-chai": "^3.2.5",
 	"@typescript-eslint/eslint-plugin": "^5.2.0",
 	"@typescript-eslint/parser": "^5.2.0",
-	"axios": "^0.24.0",
 	"@types/uuid": "^8.3.1",
 	"chai": "^4.3.4",
 	"chai-as-promised": "^7.1.1",

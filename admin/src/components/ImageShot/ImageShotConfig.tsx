@@ -1,20 +1,18 @@
 /**
  * Created by issi on 31.10.21
  */
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useI18n } from 'iobroker-react/hooks';
 import { useIoBrokerTheme } from 'iobroker-react/hooks';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
-import { fullConfig } from '../../lib/createConfig';
-
-export interface ChargingConfigProps {
+export interface ImageShotConfigProps {
 	//props
 	show: boolean;
 	onClose: () => any;
 }
 
-export const ChargingConfig: React.FC<ChargingConfigProps> = ({ show, onClose }) => {
+export const ImageShotConfig: React.FC<ImageShotConfigProps> = ({ show, onClose }) => {
 	const { translate: _ } = useI18n();
 	const [themeName, setTheme] = useIoBrokerTheme();
 
@@ -31,20 +29,10 @@ export const ChargingConfig: React.FC<ChargingConfigProps> = ({ show, onClose })
 		}
 	};
 
-	// const handleClickOpen = (): void => {
-	// 	console.log(fullConfig);
-	//
-	// };
-	//
-	// const handleClose = (): void => {
-	// 	console.log(fullConfig);
-	// 	setOpen(false);
-	// };
-
 	return (
 		<Dialog open={show} onClose={onClose}>
 			<DialogTitle sx={{ bgcolor: BgColor, textAlignLast: 'center', fontSize: '1.4rem' }}>
-				{_('Tablet Config')}
+				{_('ImageShot Config')}
 			</DialogTitle>
 			<DialogContent
 				sx={{
@@ -54,7 +42,7 @@ export const ChargingConfig: React.FC<ChargingConfigProps> = ({ show, onClose })
 					justifyContent: 'center',
 				}}
 			>
-				<h1>Test</h1>
+				<h1>ImageShot</h1>
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={onClose}>{_('add')}</Button>

@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { useI18n } from 'iobroker-react/hooks';
 import { Alert, Switch, Tooltip } from '@mui/material';
-import { createLoginConfig, fullConfig } from '../../lib/createConfig';
+import { createNewConfig, fullConfig } from '../../lib/createConfig';
 
 export interface TabletActivateProps {
 	active: (active: boolean) => any;
@@ -40,7 +40,7 @@ export const TabletActivate: React.FC<TabletActivateProps> = ({ active }): JSX.E
 					checked={checked}
 					onChange={(e) => {
 						handleChange(e);
-						createLoginConfig('active', e.target.checked);
+						createNewConfig('active', e.target.checked);
 					}}
 					color="primary"
 					inputProps={{ 'aria-label': 'controlled' }}

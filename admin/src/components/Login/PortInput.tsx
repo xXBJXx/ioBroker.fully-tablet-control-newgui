@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import { useI18n } from 'iobroker-react/hooks';
 import { FormControl, TextField, Tooltip } from '@mui/material';
-import { createLoginConfig } from '../../lib/createConfig';
+import { createNewConfig } from '../../lib/createConfig';
 
 export const PortInput = (): JSX.Element => {
 	const { translate: _ } = useI18n();
@@ -28,11 +28,11 @@ export const PortInput = (): JSX.Element => {
 								const value = parseInt(e.target.value, 10);
 								setPort(value);
 								// console.log(value);
-								createLoginConfig('port', value);
+								createNewConfig('port', value);
 							} else {
 								const value = 0;
 								setPort(value);
-								createLoginConfig('port', value);
+								createNewConfig('port', value);
 							}
 						}}
 					/>

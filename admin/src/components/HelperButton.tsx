@@ -4,16 +4,16 @@ import { LiveHelp } from '@mui/icons-material';
 import { useI18n } from 'iobroker-react/hooks';
 
 interface HelperButtonProps {
-	loginHelperLink: string;
+	helperLink: string;
 	helperTooltipTitle: string;
 }
 
-export const HelperButton: React.FC<HelperButtonProps> = ({ loginHelperLink, helperTooltipTitle }): JSX.Element => {
+export const HelperButton: React.FC<HelperButtonProps> = ({ helperLink, helperTooltipTitle }): JSX.Element => {
 	const { translate: _ } = useI18n();
 	return (
 		<Tooltip title={_(helperTooltipTitle)} arrow>
 			<IconButton
-				href={loginHelperLink}
+				href={helperLink}
 				target="_blank"
 				rel="noreferrer"
 				color="primary"
