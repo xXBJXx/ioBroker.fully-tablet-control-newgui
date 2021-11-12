@@ -105,6 +105,11 @@ For later updates, the above procedure is not necessary. Just do the following:
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+* (xXBJXx) test release 2
+
 ### 0.0.3-alpha.0 (2021-11-12)
 
 * (xXBJXx) test release
