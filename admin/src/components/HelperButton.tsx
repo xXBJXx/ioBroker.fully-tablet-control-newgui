@@ -18,6 +18,7 @@ export const HelperButton: React.FC<HelperButtonProps> = ({ helperLink, helperTo
 				rel="noreferrer"
 				color="primary"
 				aria-label="add to shopping cart"
+				sx={{ cursor: 'help' }}
 			>
 				<LiveHelp />
 			</IconButton>
