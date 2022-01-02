@@ -1,0 +1,222 @@
+/**
+ * Created by issi on 31.10.21
+ */
+import React, { useEffect, useState } from 'react';
+import { useI18n } from 'iobroker-react/hooks';
+import { useIoBrokerTheme } from 'iobroker-react/hooks';
+import {
+	Alert,
+	AlertTitle,
+	Box,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	FormControl,
+	Grid,
+	IconButton,
+	InputAdornment,
+	InputLabel,
+	MenuItem,
+	OutlinedInput,
+	Select,
+	Stack,
+	Tooltip,
+} from '@mui/material';
+import { clearMotionConfig, createNewConfig, fullConfig } from '../../../lib/createConfig';
+import { HelperButton } from '../../../components/HelperButton';
+import { Ballot } from '@mui/icons-material';
+
+export interface MotionConfigProps {
+	//props
+	show: boolean;
+	onClose: () => any;
+}
+
+const motionHelperLink = 'https://xxbjxx.github.io/language/en/Fully-Tablet-Control/07.Bewegungsmelder.html';
+export const MotionConfig: React.FC<MotionConfigProps> = ({ show, onClose }) => {
+	const [motionValues, setMotionValues] = useState({
+		motionActive: false,
+		motionId: '',
+		selectIdInfo: false,
+	});
+
+	const { translate: _ } = useI18n();
+	const [themeName, setTheme] = useIoBrokerTheme();
+
+	const BgColor = (): string => {
+		switch (themeName) {
+			case 'dark':
+				return '#3b3b3b66';
+			case 'blue':
+				return '#3e464a61';
+			case 'light':
+				return '#b7b7b7';
+			case 'colored':
+				return '#b7b7b7';
+		}
+	};
+
+	const handleChange = (
+		attr: string,
+		event:
+			| (Event & { target: { value: string; name: string } })
+			| React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+	) => {
+		switch (attr) {
+			case 'active':
+				createNewConfig('motionActive', JSON.parse(event.target.value));
+				setMotionValues({ ...motionValues, motionActive: JSON.parse(event.target.value) });
+				if (!JSON.parse(event.target.value)) {
+					clearMotionConfig();
+				}
+				break;
+
+			case 'motionId':
+				createNewConfig('motionId', event.target.value);
+				setMotionValues({ ...motionValues, motionId: event.target.value });
+				break;
+		}
+	};
+
+	const handleClickShow = (value: boolean) => {
+		// setValues({ ...values, showPassword: !values.showPassword });
+		console.log('test');
+		setMotionValues({ ...motionValues, selectIdInfo: value });
+	};
+
+	useEffect(() => {
+		if (fullConfig.config.charger.chargerActive) {
+			setMotionValues({ ...motionValues, motionActive: true });
+		}
+	}, [show]);
+
+	const handleAdd = () => {
+		console.log(`add Motion configuration =>  ${JSON.stringify(fullConfig.config.motion)}`);
+		setMotionValues({ ...motionValues, motionActive: false });
+		onClose();
+		// clearMotionConfig();
+	};
+
+	const handleClose = () => {
+		setMotionValues({ ...motionValues, motionActive: false });
+		onClose();
+		clearMotionConfig();
+	};
+
+	return (
+		<Dialog open={show} onClose={handleClose}>
+			<DialogTitle sx={{ bgcolor: BgColor, textAlignLast: 'center', fontSize: '1.4rem' }}>
+				{_('Motion Config')}
+			</DialogTitle>
+			<DialogContent
+				sx={{
+					display: 'flex',
+					flexWrap: 'wrap',
+					flexDirection: 'row',
+					justifyContent: 'center',
+				}}
+			>
+				<Grid
+					container
+					spacing={0}
+					sx={{
+						marginTop: '10px',
+						alignItems: 'center',
+						justifyContent: 'space-around',
+						display: 'flex',
+						flexWrap: 'nowrap',
+						flexDirection: 'row',
+					}}
+				>
+					<Box sx={{ minWidth: 120, marginRight: 1 }}>
+						<FormControl fullWidth>
+							<InputLabel id="motionActive-select-label">Motion Active</InputLabel>
+							<Select
+								labelId="motionActive-select-label"
+								id="motionActive"
+								value={fullConfig.config.motion.motionActive.toString()}
+								label={_('Motion Active')}
+								onChange={(event) => {
+									handleChange('active', event);
+								}}
+							>
+								<MenuItem value={'true'}>{_('Motion On')}</MenuItem>
+								<MenuItem value={'false'}>{_('Motion Off')}</MenuItem>
+							</Select>
+						</FormControl>
+					</Box>
+					<HelperButton helperLink={motionHelperLink} helperTooltipTitle="MotionHelper" />
+				</Grid>
+				{fullConfig.config.motion.motionActive ? (
+					<Grid
+						container
+						spacing={0}
+						sx={{
+							marginTop: '10px',
+							alignItems: 'center',
+							justifyContent: 'space-around',
+							display: 'flex',
+							flexWrap: 'nowrap',
+							flexDirection: 'row',
+						}}
+					>
+						<FormControl sx={{ margin: 1, width: '65ch', marginBottom: 2 }} variant="outlined">
+							<InputLabel htmlFor="outlined-adornment-motionId">{_('motionId')}</InputLabel>
+							<Tooltip title={_('tooltipMotionId')} arrow>
+								<OutlinedInput
+									id="outlined-adornment-motionId"
+									value={fullConfig.config.motion.motionId}
+									onChange={(event) => {
+										handleChange('motionId', event);
+									}}
+									endAdornment={
+										<InputAdornment position="end">
+											<IconButton
+												aria-label="toggle motionId visibility"
+												onClick={() => {
+													handleClickShow(true);
+												}}
+												edge="end"
+											>
+												<Ballot />
+											</IconButton>
+										</InputAdornment>
+									}
+									label="motionId"
+								/>
+							</Tooltip>
+							{motionValues.selectIdInfo ? (
+								<Stack sx={{ width: '100%' }} spacing={2}>
+									<Alert
+										variant="filled"
+										severity="warning"
+										action={
+											<Button
+												color="inherit"
+												size="small"
+												onClick={() => {
+													handleClickShow(false);
+												}}
+											>
+												close
+											</Button>
+										}
+									>
+										<AlertTitle>{_('SelectId will be available soon.')} </AlertTitle>
+										{_('Until then, please use Copy & Paste')}
+									</Alert>
+								</Stack>
+							) : null}
+						</FormControl>
+					</Grid>
+				) : null}
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={handleAdd}>{_('add')}</Button>
+				<Button onClick={handleClose}>{_('Cancel')}</Button>
+			</DialogActions>
+		</Dialog>
+	);
+};
