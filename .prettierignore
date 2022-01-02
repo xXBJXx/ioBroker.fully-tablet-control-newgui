@@ -1,3 +1,6 @@
 package.json
 package-lock.json
 build/
+README.md
+#CHANGELOG_OLD.md
+.github/workflows/
