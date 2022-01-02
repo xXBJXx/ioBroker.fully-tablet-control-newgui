@@ -1,27 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-// UI elements are imported from Material-UI
-// import { Checkbox } from '@material-ui/core/';
-// import Checkbox from '@mui/material/Checkbox';
-// import FormControlLabel from '@mui/material/FormControlLabel';
+import Utils from '@iobroker/adapter-react/Components/Utils';
+import theme from '@iobroker/adapter-react/Theme';
 import { ThemeProvider } from '@mui/material/styles';
 import { SettingsApp } from 'iobroker-react/app';
-import { useSettings, useI18n } from 'iobroker-react/hooks';
+import { useSettings } from 'iobroker-react/hooks';
 import type { Translations } from 'iobroker-react/i18n';
-import theme from '@iobroker/adapter-react/Theme';
-import Utils from '@iobroker/adapter-react/Components/Utils';
-// Components are imported here
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { AdapterHeader } from './components/AdapterHeader';
-import { AddDeviceDialog } from './components/AddDeviceDialog';
+import { SettingPage } from './SettingPage';
 
 const themeName = Utils.getThemeName();
 
+// eslint-disable-next-line react/display-name
 const SettingsPageContent: React.FC = React.memo(() => {
 	// settings is the current settings object, including the changes made in the UI
 	// originalSettings is the original settings object, as it was loaded from ioBroker
 	// setSettings is used to update the current settings object
-	const { settings, originalSettings, setSettings } = useSettings<ioBroker.AdapterConfig>();
+	const { settings, setSettings } = useSettings<ioBroker.AdapterConfig>();
 
 	// Updates the settings when the checkbox changes. The changes are not saved yet.
 	// const handleChange = <T extends keyof ioBroker.AdapterConfig>(option: T, value: ioBroker.AdapterConfig[T]) => {
@@ -35,8 +30,7 @@ const SettingsPageContent: React.FC = React.memo(() => {
 	return (
 		<React.Fragment>
 			<AdapterHeader />
-			{/*<TestHook />*/}
-			<AddDeviceDialog native={settings} onChange={(value) => handleChange(value)} />
+			<SettingPage onChange={(value) => handleChange(value)} native={settings} />
 		</React.Fragment>
 	);
 });
