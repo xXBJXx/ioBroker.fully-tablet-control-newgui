@@ -1,17 +1,21 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Paper } from '@mui/material';
+import { useConnection, useGlobals, useI18n, useIoBrokerTheme } from 'iobroker-react/hooks';
 import React, { useCallback, useState } from 'react';
-import { useConnection, useGlobals, useI18n } from 'iobroker-react/hooks';
-import { clearConfig, fullConfig } from '../../lib/createConfig';
-import { useIoBrokerTheme } from 'iobroker-react/hooks';
-import { NewTabletConfig } from './NewTabletConfig';
 import { ConfigButton } from '../../components/ConfigButton';
+import { clearConfig, fullConfig } from '../../lib/createConfig';
+import { NewTabletConfig } from './NewTabletConfig';
 
-export interface AddDeviceDialogProps {
-	onChange: (value: any) => void;
-	native: ioBroker.AdapterConfig;
+export interface result {
+	deviceModel: string;
+	deviceManufacturer: string;
 }
 
-export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = () => {
+export interface AddDeviceDialogProps {
+	addDevice: (result: result) => void;
+	// native: ioBroker.AdapterConfig;
+}
+
+export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({ addDevice }) => {
 	const [open, setOpen] = React.useState(false);
 	const [addButton, setAddButton] = useState(true);
 	const [valideConfig, setValideConfig] = useState(false);
@@ -39,13 +43,17 @@ export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = () => {
 	 */
 	const handleClickAdd = useCallback(async () => {
 		// TODO add Device sendTo actived
-		// const result = await connection.sendTo(namespace, 'newConfig', fullConfig);
-		// if (!result) console.error('Nope!');
+		const result = await connection.sendTo(namespace, 'newConfig', fullConfig);
+		if (!result) console.error('Nope!');
 		// if (result) console.info(result);
+		if (result) {
+			addDevice(result);
+		}
 		console.log(fullConfig);
 		setAddButton(true);
 		clearConfig();
 		setOpen(false);
+		// addDevice();
 	}, [connection, namespace]);
 
 	const handleClickOpen = (): void => {

@@ -2,7 +2,6 @@ import Utils from '@iobroker/adapter-react/Components/Utils';
 import theme from '@iobroker/adapter-react/Theme';
 import { ThemeProvider } from '@mui/material/styles';
 import { SettingsApp } from 'iobroker-react/app';
-import { useSettings } from 'iobroker-react/hooks';
 import type { Translations } from 'iobroker-react/i18n';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -16,21 +15,21 @@ const SettingsPageContent: React.FC = React.memo(() => {
 	// settings is the current settings object, including the changes made in the UI
 	// originalSettings is the original settings object, as it was loaded from ioBroker
 	// setSettings is used to update the current settings object
-	const { settings, setSettings } = useSettings<ioBroker.AdapterConfig>();
+	// const { settings, setSettings } = useSettings<ioBroker.AdapterConfig>();
 
 	// Updates the settings when the checkbox changes. The changes are not saved yet.
 	// const handleChange = <T extends keyof ioBroker.AdapterConfig>(option: T, value: ioBroker.AdapterConfig[T]) => {
-	const handleChange = <T extends keyof ioBroker.AdapterConfig>(value: ioBroker.AdapterConfig[T]) => {
-		setSettings((s) => ({
-			...s,
-			tablets: value,
-		}));
-	};
+	// const handleChange = <T extends keyof ioBroker.AdapterConfig>(value: ioBroker.AdapterConfig[T]) => {
+	// 	setSettings((s) => ({
+	// 		...s,
+	// 		tablets: value,
+	// 	}));
+	// };
 
 	return (
 		<React.Fragment>
 			<AdapterHeader />
-			<SettingPage onChange={(value) => handleChange(value)} native={settings} />
+			<SettingPage />
 		</React.Fragment>
 	);
 });

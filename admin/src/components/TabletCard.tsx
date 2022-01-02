@@ -16,7 +16,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { useI18n, useIoBrokerTheme } from 'iobroker-react/hooks';
 import React, { useEffect, useState } from 'react';
-import { tablets } from '../lib/supportedTablets';
+import { tablets } from '../../../src/lib/supportedTablets';
 
 interface configObj {
 	device: string;

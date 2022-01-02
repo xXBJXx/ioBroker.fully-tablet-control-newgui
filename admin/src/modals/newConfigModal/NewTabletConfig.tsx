@@ -41,21 +41,13 @@ export const NewTabletConfig: React.FC<LoginConfigProps> = ({ validConfig }): JS
 	};
 
 	const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-		// event.target.value = Math.max(0, parseInt(event.target.value)).toString().slice(0, 12);
 		const newName = event.target.value;
 
 		if (newName !== '') {
 			setName(newName);
-			// if (event.target.value.length < 20) {
-			// if (fullConfig.config.name.length < 20) {
-			// setName(newName);
 			createNewConfig('name', newName);
 			handleValid('name', true);
 			setError(false);
-			// } else {
-			// 	handleValid('name', false);
-			// 	setError(true);
-			// }
 		} else {
 			setName('');
 			createNewConfig('name', '');
