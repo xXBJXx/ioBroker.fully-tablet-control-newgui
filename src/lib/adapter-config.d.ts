@@ -19,9 +19,10 @@ declare global {
 			Login: Login;
 			charger: Charger;
 			brightness: Brightness;
-			screenSaver: ScreenSaver;
-			telegram: Telegram;
+			screensaver: screensaver;
 			motion: Motion;
+			telegram: Telegram;
+			imageCapture: imageCapture;
 		}
 
 		interface Login {
@@ -39,10 +40,12 @@ declare global {
 		}
 
 		interface Brightness {
-			active: boolean;
+			brightnessActive: boolean;
 			screen_on: boolean;
-			timeMode: true;
-			interval: number;
+			brightness_on: boolean;
+			timeMode: boolean;
+			loadingLoweringMode: boolean;
+			brightnessInterval: number;
 			astroSelectDay: string;
 			astroSelectNight: string;
 			dayTime: number;
@@ -54,30 +57,35 @@ declare global {
 			loadingLowering: number;
 		}
 
-		interface ScreenSaver {
-			active: boolean;
-			screenSaverDeletion: boolean;
-			screenSaverName: string;
-			url: string;
-			screenSaverMode: boolean;
-			time: number;
-		}
-
-		interface Telegram {
-			active: boolean;
-			telegramSelectMode: boolean;
-			telegramUserName: string;
-			multipleTelegramUserName: string[];
+		interface screensaver {
+			screensaverActive: boolean;
+			screensaverDeletion: boolean;
+			screensaverYouTubeName: string;
+			screensaverWallpaperName: string;
+			screensaverYoutubeUrl: string;
+			screensaverWallpaperUrl: string;
+			screensaverMode: boolean;
+			screensaverTime: number;
 		}
 
 		interface Motion {
-			active: boolean;
+			motionActive: boolean;
 			motionId: string;
 		}
 
-		// interface image_capture {}
-		//
-		// interface vis_view {}
+		interface imageCapture {
+			autoMotionDetection: boolean;
+			recordMode: boolean;
+			seriesShotCount: number;
+			singleShotSafe: number;
+			seriesShotSafe: number;
+			imageTimeout: number;
+		}
+
+		interface Telegram {
+			telegramActive: boolean;
+			multipleTelegramUserName: string[];
+		}
 	}
 }
 
