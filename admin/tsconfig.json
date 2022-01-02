@@ -9,9 +9,10 @@
 		"sourceRoot": "./src",
 		"noImplicitAny": false,
 		"lib": [
-			"es2018",
+			"es2019",
 			"DOM"
 		],
+	  	"esModuleInterop": true
 	},
 	"include": [
 		"./**/*.ts",
