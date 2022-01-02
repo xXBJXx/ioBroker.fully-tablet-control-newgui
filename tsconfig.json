@@ -19,20 +19,31 @@
 		"resolveJsonModule": true,
 		// Set this to false if you want to disable the very strict rules (not recommended)
 		"strict": true,
-		// Or enable some of those features for more fine-grained control
+
+	  	// Or enable some of those features for more fine-grained control
 		// "strictNullChecks": true,
 		// "strictPropertyInitialization": true,
 		// "strictBindCallApply": true,
 		// "noImplicitAny": true,
 		// "noUnusedLocals": true,
 		// "noUnusedParameters": true,
-		// Uncomment this if you want the old behavior of catch variables being `any`
+
+	  	// Uncomment this if you want the old behavior of catch variables being `any`
 		// "useUnknownInCatchVariables": false,
+
 		// Consider targetting es2019 or higher if you only support Node.js 12+
-		"target": "es2018",
+		"target": "es2019",
+
 		"jsx": "react",
+
+	  	// Avoid runtime imports that are unnecessary
+	  	"importsNotUsedAsValues": "error",
+
+	  	// Required for TS debugging
 		"sourceMap": true,
 		"inlineSourceMap": false,
+
+	  	// watch=true breaks CI build steps
 		"watch": false
 	},
 	"include": [
