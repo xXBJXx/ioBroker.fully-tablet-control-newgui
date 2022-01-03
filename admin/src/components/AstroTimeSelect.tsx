@@ -1,12 +1,12 @@
 /**
  * Created by issi on 31.10.21
  */
-import React, { useEffect, useState } from 'react';
+import { Box, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
-import { Box, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
+import React, { useState } from 'react';
 import { createNewConfig, fullConfig } from '../lib/createConfig';
 
-const astro = [
+const astro: string[] = [
 	'sunrise',
 	'sunriseEnd',
 	'goldenHourEnd',
@@ -25,20 +25,22 @@ const astro = [
 
 export const AstroTimeSelect = (): JSX.Element => {
 	const { translate: _ } = useI18n();
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [brightnessAstroDay, setBrightnessAstroDay] = useState('sunrise');
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [brightnessAstroNight, setBrightnessAstroNight] = useState('sunset');
 
-	const handleChangeNight = (event: SelectChangeEvent) => {
+	const handleChangeNight = (event: { target: { value: React.SetStateAction<string> } }) => {
 		createNewConfig('astroSelectNight', event.target.value);
 		setBrightnessAstroNight(event.target.value);
 	};
 
-	const handleChangeDay = (event: SelectChangeEvent) => {
+	const handleChangeDay = (event: { target: { value: React.SetStateAction<string> } }) => {
 		createNewConfig('astroSelectDay', event.target.value);
 		setBrightnessAstroDay(event.target.value);
 	};
 
-	const astroSelect = (key: string) => {
+	const astroSelect = (key: string): JSX.Element[] => {
 		const menuItem: JSX.Element[] = [];
 		for (const astroKey in astro) {
 			menuItem.push(
