@@ -26,9 +26,9 @@ const astro: string[] = [
 export const AstroTimeSelect = (): JSX.Element => {
 	const { translate: _ } = useI18n();
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [brightnessAstroDay, setBrightnessAstroDay] = useState('sunrise');
+	const [brightnessAstroDay, setBrightnessAstroDay] = useState<string>('sunrise');
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [brightnessAstroNight, setBrightnessAstroNight] = useState('sunset');
+	const [brightnessAstroNight, setBrightnessAstroNight] = useState<string>('sunset');
 
 	const handleChangeNight = (event: { target: { value: React.SetStateAction<string> } }) => {
 		createNewConfig('astroSelectNight', event.target.value);
