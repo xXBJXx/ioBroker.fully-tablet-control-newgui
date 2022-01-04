@@ -1,8 +1,6 @@
 /**
  * Created by issi on 31.10.21
  */
-import React, { useEffect, useState } from 'react';
-import { useI18n } from 'iobroker-react/hooks';
 import {
 	Box,
 	FormControl,
@@ -11,10 +9,11 @@ import {
 	MenuItem,
 	Select,
 	SelectChangeEvent,
-	TextField,
 	Tooltip,
 	Typography,
 } from '@mui/material';
+import { useI18n } from 'iobroker-react/hooks';
+import React, { useEffect, useState } from 'react';
 import { createNewConfig, fullConfig } from '../lib/createConfig';
 import { NumberInput } from './NumberInput';
 
@@ -25,8 +24,8 @@ interface BrightnessInputProps {
 
 export const BrightnessInput: React.FC<BrightnessInputProps> = ({ mode, show }): JSX.Element => {
 	const { translate: _ } = useI18n();
-	const [valueDay, setNumberValue] = useState(20);
-	const [loadingLoweringMode, setLoadingLoweringMode] = useState(false);
+	const [valueDay, setNumberValue] = useState<number>(20);
+	const [loadingLoweringMode, setLoadingLoweringMode] = useState<boolean>(false);
 
 	const handleChange = (event: SelectChangeEvent<string>) => {
 		console.log(event.target.value);

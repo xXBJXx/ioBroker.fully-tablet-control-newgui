@@ -48,7 +48,7 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
 let names: string[] = [];
 
 const telegramHelperLink = 'https://xxbjxx.github.io/language/en/Fully-Tablet-Control/06.Telegram.html';
-export const TelegramConfig: React.FC<TelegramConfigProps> = ({ show, onClose }) => {
+export const TelegramConfig: React.FC<TelegramConfigProps> = ({ show, onClose }): JSX.Element => {
 	const theme = useTheme();
 	const { translate: _ } = useI18n();
 	const [themeName, setTheme] = useIoBrokerTheme();
@@ -57,7 +57,7 @@ export const TelegramConfig: React.FC<TelegramConfigProps> = ({ show, onClose })
 		id: 'telegram.0.communicate.users',
 		subscribe: true,
 	});
-	const [TelegramActive, setTelegramActive] = useState(false);
+	const [TelegramActive, setTelegramActive] = useState<boolean>(false);
 	const BgColor = (): string => {
 		switch (themeName) {
 			case 'dark':
@@ -71,7 +71,7 @@ export const TelegramConfig: React.FC<TelegramConfigProps> = ({ show, onClose })
 		}
 	};
 
-	useEffect(() => {
+	useEffect((): void => {
 		if (names.length !== 0) names = [];
 		let newUsers;
 		if (typeof telegramUser === 'string') {
@@ -83,15 +83,13 @@ export const TelegramConfig: React.FC<TelegramConfigProps> = ({ show, onClose })
 		}
 	}, [telegramUser]);
 
-	// const handleChange = (event: SelectChangeEvent<typeof personName>) => {};
-
 	const handleChange = (
 		attr: string,
 		event:
 			| React.ChangeEvent<HTMLInputElement>
 			| (Event & { target: { value: string; name: string } })
 			| (Event & { target: { value: string[]; name: string } }),
-	) => {
+	): void => {
 		switch (attr) {
 			case 'active':
 				createNewConfig('telegramActive', event.target.value);
@@ -115,12 +113,12 @@ export const TelegramConfig: React.FC<TelegramConfigProps> = ({ show, onClose })
 		}
 	};
 
-	const handleAdd = () => {
+	const handleAdd = (): void => {
 		console.log(`add Telegram configuration =>  ${JSON.stringify(fullConfig.config.telegram)}`);
 		onClose();
 	};
 
-	const handleClose = () => {
+	const handleClose = (): void => {
 		onClose();
 		setTelegramActive(false);
 		clearTelegramConfig();

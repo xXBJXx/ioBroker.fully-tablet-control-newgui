@@ -1,12 +1,7 @@
 /**
  * Created by issi on 31.10.21
  */
-import React, { useEffect, useState } from 'react';
-import { useI18n } from 'iobroker-react/hooks';
-import { useIoBrokerTheme } from 'iobroker-react/hooks';
 import {
-	Alert,
-	AlertTitle,
 	Box,
 	Button,
 	Dialog,
@@ -19,12 +14,13 @@ import {
 	MenuItem,
 	Select,
 	SelectChangeEvent,
-	Stack,
 	Tooltip,
 } from '@mui/material';
+import { useI18n, useIoBrokerTheme } from 'iobroker-react/hooks';
+import React, { useEffect, useState } from 'react';
 import { ChargeID } from '../../../components/ChargeID';
-import { clearChargerConfig, createNewConfig, fullConfig } from '../../../lib/createConfig';
 import { HelperButton } from '../../../components/HelperButton';
+import { clearChargerConfig, createNewConfig, fullConfig } from '../../../lib/createConfig';
 
 export interface ChargingConfigProps {
 	//props
@@ -41,9 +37,9 @@ interface valuesProps {
 }
 
 const chargingHelperLink = 'https://xxbjxx.github.io/language/en/Fully-Tablet-Control/03.Ladegeraet.html';
-export const ChargingConfig: React.FC<ChargingConfigProps> = ({ show, onClose }) => {
+export const ChargingConfig: React.FC<ChargingConfigProps> = ({ show, onClose }): JSX.Element => {
 	const { translate: _ } = useI18n();
-	const [themeName, setTheme] = useIoBrokerTheme();
+	const [themeName] = useIoBrokerTheme();
 	const [chargerValues, setChargerValues] = useState<valuesProps>({
 		mode: false,
 		percentStart: 20,
@@ -65,7 +61,7 @@ export const ChargingConfig: React.FC<ChargingConfigProps> = ({ show, onClose })
 		}
 	};
 
-	const handleChange = (attr: string, event: SelectChangeEvent<string>) => {
+	const handleChange = (attr: string, event: SelectChangeEvent<string>): void => {
 		switch (attr) {
 			case 'active':
 				if (event.target.value === 'true' || event.target.value == 'false') {
@@ -89,7 +85,7 @@ export const ChargingConfig: React.FC<ChargingConfigProps> = ({ show, onClose })
 		}
 	};
 
-	const handleChangeLoadPercent = (event: SelectChangeEvent<string>, attr: string) => {
+	const handleChangeLoadPercent = (event: SelectChangeEvent<string>, attr: string): void => {
 		switch (attr) {
 			case 'loadStart':
 				setChargerValues({ ...chargerValues, percentStart: JSON.parse(event.target.value) });
@@ -101,7 +97,7 @@ export const ChargingConfig: React.FC<ChargingConfigProps> = ({ show, onClose })
 		createNewConfig(attr, Number(event.target.value));
 	};
 
-	const loadItem = (start: number, end: number, key: string) => {
+	const loadItem = (start: number, end: number, key: string): JSX.Element[] => {
 		const menuItem: JSX.Element[] = [];
 		for (let i = start; i < end; i++) {
 			menuItem.push(<MenuItem key={`${key}${i}`} value={i}>{`${i}%`}</MenuItem>);
@@ -109,19 +105,19 @@ export const ChargingConfig: React.FC<ChargingConfigProps> = ({ show, onClose })
 		return menuItem;
 	};
 
-	useEffect(() => {
+	useEffect((): void => {
 		if (fullConfig.config.charger.chargerActive) {
 			setChargerValues({ ...chargerValues, chargerActive: true, modeActive: true });
 		}
 	}, [show]);
 
-	const handleAdd = () => {
+	const handleAdd = (): void => {
 		// console.log(`add charger configuration =>  ${JSON.stringify(fullConfig.config.charger)}`);
 		onClose();
 		setChargerValues({ ...chargerValues, chargerActive: false, modeActive: false });
 	};
 
-	const handleClose = () => {
+	const handleClose = (): void => {
 		onClose();
 		setChargerValues({ ...chargerValues, chargerActive: false, modeActive: false });
 		clearChargerConfig();

@@ -1,9 +1,6 @@
 /**
  * Created by issi on 31.10.21
  */
-import React, { useEffect, useState } from 'react';
-import { useI18n } from 'iobroker-react/hooks';
-import { useIoBrokerTheme } from 'iobroker-react/hooks';
 import {
 	Box,
 	Button,
@@ -16,25 +13,33 @@ import {
 	InputLabel,
 	MenuItem,
 	Select,
-	TextField,
 	Tooltip,
 	Typography,
 } from '@mui/material';
-import { clearImageCaptureConfig, createNewConfig, fullConfig } from '../../../lib/createConfig';
+import { useI18n, useIoBrokerTheme } from 'iobroker-react/hooks';
+import React, { useState } from 'react';
 import { HelperButton } from '../../../components/HelperButton';
 import { NumberInput } from '../../../components/NumberInput';
+import { clearImageCaptureConfig, createNewConfig, fullConfig } from '../../../lib/createConfig';
 
 export interface ImageShotConfigProps {
 	//props
 	show: boolean;
 	onClose: () => any;
 }
-
+interface imageShotValues {
+	autoMotionDetection: boolean;
+	recordMode: boolean;
+	seriesShotCount: number;
+	singleShotSafe: number;
+	seriesShotSafe: number;
+	imageTimeout: number;
+}
 const motionDetectionHelperLink = 'https://xxbjxx.github.io/language/en/Fully-Tablet-Control/09.camera_shot.html';
-export const ImageShotConfig: React.FC<ImageShotConfigProps> = ({ show, onClose }) => {
+export const ImageShotConfig: React.FC<ImageShotConfigProps> = ({ show, onClose }): JSX.Element => {
 	const { translate: _ } = useI18n();
-	const [themeName, setTheme] = useIoBrokerTheme();
-	const [imageShotValues, setImageShotValues] = useState({
+	const [themeName] = useIoBrokerTheme();
+	const [imageShotValues, setImageShotValues] = useState<imageShotValues>({
 		autoMotionDetection: false,
 		recordMode: false,
 		seriesShotCount: 2,
@@ -42,7 +47,7 @@ export const ImageShotConfig: React.FC<ImageShotConfigProps> = ({ show, onClose 
 		seriesShotSafe: 2,
 		imageTimeout: 1,
 	});
-	const [numberValue, setNumberValue] = useState(0);
+	const [numberValue, setNumberValue] = useState<number>(0);
 
 	const BgColor = (): string => {
 		switch (themeName) {
@@ -62,7 +67,7 @@ export const ImageShotConfig: React.FC<ImageShotConfigProps> = ({ show, onClose 
 		event:
 			| (Event & { target: { value: string; name: string } })
 			| React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-	) => {
+	): void => {
 		switch (attr) {
 			case 'autoMotionDetection':
 				createNewConfig('autoMotionDetection', JSON.parse(event.target.value));
@@ -79,17 +84,17 @@ export const ImageShotConfig: React.FC<ImageShotConfigProps> = ({ show, onClose 
 		}
 	};
 
-	const handleAdd = () => {
+	const handleAdd = (): void => {
 		console.log(`add Motion configuration =>  ${JSON.stringify(fullConfig.config.imageCapture)}`);
 		onClose();
 	};
 
-	const handleClose = () => {
+	const handleClose = (): void => {
 		onClose();
 		clearImageCaptureConfig();
 	};
 
-	const handeleNumber = (attr: string, value: React.SetStateAction<number>) => {
+	const handeleNumber = (attr: string, value: React.SetStateAction<number>): void => {
 		setNumberValue(value);
 		createNewConfig(attr, value);
 	};

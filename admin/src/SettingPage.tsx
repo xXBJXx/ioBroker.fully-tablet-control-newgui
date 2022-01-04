@@ -12,11 +12,11 @@ import { AddDeviceDialog, result } from './modals/newConfigModal/AddDeviceDialog
 // 	native: ioBroker.AdapterConfig;
 // }
 
-export const SettingPage = () => {
+export const SettingPage = (): JSX.Element => {
 	const { translate: _ } = useI18n();
-	const [themeName, setTheme] = useIoBrokerTheme();
+	const [themeName] = useIoBrokerTheme();
 
-	const handleTestConfig = () => {
+	const handleTestConfig = (): JSX.Element[] => {
 		const test: JSX.Element[] = [];
 		for (const samsungKey in tablets.samsung) {
 			test.push(
@@ -29,7 +29,7 @@ export const SettingPage = () => {
 		return test;
 	};
 
-	const handleAddDevice = (result: result) => {
+	const handleAddDevice = (result: result): void => {
 		console.log(result);
 	};
 

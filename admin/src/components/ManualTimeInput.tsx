@@ -1,15 +1,15 @@
 /**
  * Created by issi on 31.10.21
  */
-import React, { useEffect, useState } from 'react';
-import { useI18n } from 'iobroker-react/hooks';
 import { Grid, Typography } from '@mui/material';
+import { useI18n } from 'iobroker-react/hooks';
+import React, { useState } from 'react';
 import { createNewConfig, fullConfig } from '../lib/createConfig';
 import { NumberInput } from './NumberInput';
 
 export const ManualTimeInput = (): JSX.Element => {
 	const { translate: _ } = useI18n();
-	const [numberValue, setNumberValue] = useState(0);
+	const [numberValue, setNumberValue] = useState<number>(0);
 
 	const handeleNumber = (attr: string, value: React.SetStateAction<number>) => {
 		setNumberValue(value);

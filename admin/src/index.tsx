@@ -11,7 +11,7 @@ import { SettingPage } from './SettingPage';
 const themeName = Utils.getThemeName();
 
 // eslint-disable-next-line react/display-name
-const SettingsPageContent: React.FC = React.memo(() => {
+const SettingsPageContent: React.FC = React.memo((): JSX.Element => {
 	// settings is the current settings object, including the changes made in the UI
 	// originalSettings is the original settings object, as it was loaded from ioBroker
 	// setSettings is used to update the current settings object
@@ -34,7 +34,7 @@ const SettingsPageContent: React.FC = React.memo(() => {
 	);
 });
 
-const migrateSettings = (settings: ioBroker.AdapterConfig) => {
+const migrateSettings = (settings: ioBroker.AdapterConfig): void => {
 	// Here's an example for editing settings after they are loaded from the backend
 	// In this case, option1 will be set to true by default
 	if (settings.tablets === undefined) {
@@ -56,7 +56,7 @@ const translations: Translations = {
 	'zh-cn': require('./i18n/zh-cn.json'),
 };
 
-const Root: React.FC = () => {
+const Root: React.FC = (): JSX.Element => {
 	return (
 		<ThemeProvider theme={theme(themeName)}>
 			<SettingsApp name="fully-adapter" afterLoad={migrateSettings} translations={translations}>

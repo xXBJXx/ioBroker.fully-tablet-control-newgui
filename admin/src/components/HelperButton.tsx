@@ -1,7 +1,7 @@
-import React from 'react';
-import { IconButton, Tooltip } from '@mui/material';
 import { LiveHelp } from '@mui/icons-material';
+import { IconButton, Tooltip } from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
+import React from 'react';
 
 interface HelperButtonProps {
 	helperLink: string;

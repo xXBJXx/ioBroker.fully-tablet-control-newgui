@@ -28,9 +28,19 @@ export interface ScreensaverConfigProps {
 	onClose: () => any;
 }
 
+interface screensaverValues {
+	active: boolean;
+	deletion: boolean;
+	mode: boolean;
+	youtubeName: string;
+	wallpaperName: string;
+	youtubeUrl: string;
+	wallpaperUrl: string;
+	time: number;
+}
 const screensaverHelperLink = 'https://xxbjxx.github.io/language/en/Fully-Tablet-Control/05.Bildschirmschoner.html';
-export const ScreensaverConfig: React.FC<ScreensaverConfigProps> = ({ show, onClose }) => {
-	const [screensaverValues, setScreensaverValues] = useState({
+export const ScreensaverConfig: React.FC<ScreensaverConfigProps> = ({ show, onClose }): JSX.Element => {
+	const [screensaverValues, setScreensaverValues] = useState<screensaverValues>({
 		active: false,
 		deletion: false,
 		mode: true,
@@ -42,7 +52,7 @@ export const ScreensaverConfig: React.FC<ScreensaverConfigProps> = ({ show, onCl
 	});
 
 	const { translate: _ } = useI18n();
-	const [themeName, setTheme] = useIoBrokerTheme();
+	const [themeName] = useIoBrokerTheme();
 
 	const BgColor = (): string => {
 		switch (themeName) {
@@ -63,7 +73,7 @@ export const ScreensaverConfig: React.FC<ScreensaverConfigProps> = ({ show, onCl
 			| (Event & { target: { value: string; name: string } })
 			| React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 			| number,
-	) => {
+	): void => {
 		switch (attr) {
 			case 'active':
 				if (typeof event !== 'number') {
@@ -127,20 +137,20 @@ export const ScreensaverConfig: React.FC<ScreensaverConfigProps> = ({ show, onCl
 		}
 	};
 
-	useEffect(() => {
+	useEffect((): void => {
 		if (fullConfig.config.charger.chargerActive) {
 			setScreensaverValues({ ...screensaverValues, active: true });
 		}
 	}, [show]);
 
-	const handleAdd = () => {
+	const handleAdd = (): void => {
 		console.log(`add Screensaver configuration =>  ${JSON.stringify(fullConfig.config.screensaver)}`);
 		setScreensaverValues({ ...screensaverValues, active: false });
 		onClose();
 		// clearScreensaverConfig();
 	};
 
-	const handleClose = () => {
+	const handleClose = (): void => {
 		setScreensaverValues({ ...screensaverValues, active: false });
 		onClose();
 		clearScreensaverConfig();

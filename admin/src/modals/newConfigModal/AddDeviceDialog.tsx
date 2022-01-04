@@ -15,13 +15,13 @@ export interface AddDeviceDialogProps {
 	// native: ioBroker.AdapterConfig;
 }
 
-export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({ addDevice }) => {
-	const [open, setOpen] = React.useState(false);
-	const [addButton, setAddButton] = useState(true);
-	const [valideConfig, setValideConfig] = useState(false);
+export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({ addDevice }): JSX.Element => {
+	const [open, setOpen] = React.useState<boolean>(false);
+	const [addButton, setAddButton] = useState<boolean>(true);
+	const [valideConfig, setValideConfig] = useState<boolean>(false);
 
 	const { translate: _ } = useI18n();
-	const [themeName, setTheme] = useIoBrokerTheme();
+	const [themeName] = useIoBrokerTheme();
 	const connection = useConnection();
 	const { namespace } = useGlobals();
 
@@ -41,7 +41,7 @@ export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({ addDevice }) =
 	/**
 	 *  config sendTo adapter
 	 */
-	const handleClickAdd = useCallback(async () => {
+	const handleClickAdd = useCallback(async (): Promise<void> => {
 		// TODO add Device sendTo actived
 		const result = await connection.sendTo(namespace, 'newConfig', fullConfig);
 		if (!result) console.error('Nope!');

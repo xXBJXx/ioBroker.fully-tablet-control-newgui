@@ -16,9 +16,9 @@ let nameValid = false;
 let configValid = false;
 
 export const NewTabletConfig: React.FC<LoginConfigProps> = ({ validConfig }): JSX.Element => {
-	const [name, setName] = useState('');
-	const [error, setError] = useState(true);
-	const [numberValue, setNumberValue] = useState(0);
+	const [name, setName] = useState<string>('');
+	const [error, setError] = useState<boolean>(true);
+	const [numberValue, setNumberValue] = useState<number>(0);
 	const { translate: _ } = useI18n();
 
 	const handleValid = (attr: string, value: boolean): void => {
@@ -40,8 +40,8 @@ export const NewTabletConfig: React.FC<LoginConfigProps> = ({ validConfig }): JS
 		}
 	};
 
-	const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-		const newName = event.target.value;
+	const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => {
+		const newName: string = event.target.value;
 
 		if (newName !== '') {
 			setName(newName);
@@ -56,7 +56,7 @@ export const NewTabletConfig: React.FC<LoginConfigProps> = ({ validConfig }): JS
 		}
 	};
 
-	const handeleNumber = (attr: string, value: number) => {
+	const handeleNumber = (attr: string, value: number): void => {
 		setNumberValue(value);
 		createNewConfig(attr, value);
 	};

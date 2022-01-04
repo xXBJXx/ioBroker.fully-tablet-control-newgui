@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
 import { FormControl, TextField, Tooltip } from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
+import React, { useState } from 'react';
 
 interface NumberInputProps {
 	min: number;
@@ -37,7 +37,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 	sx,
 	createNewConfig,
 }): JSX.Element => {
-	const [values, setValues] = useState(defaultValue);
+	const [values, setValues] = useState<number>(defaultValue);
 	const { translate: _ } = useI18n();
 
 	return (

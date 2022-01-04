@@ -33,16 +33,17 @@ const allowedInputRegex = /^\d*\.?\d*\.?\d*\.?\d*$/;
 const ipRegex = /^(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)(?:\.(?!$)|$)){4}$/; //regex from https://regex101.com/library/ChFXjy
 export const LoginConfig: React.FC<LoginInputsProps> = ({ valid }): JSX.Element => {
 	const { translate: _ } = useI18n();
-	const [valide, setValide] = useState(true);
+	const [valide, setValide] = useState<boolean>(true);
 	// const [ipValue, setIpValue] = useState:string | any[]  ('');
 	const [values, setValues] = useState<valuesProps>({
 		ip: '',
 		password: '',
 		showPassword: false,
 	});
-	const [checked, setChecked] = useState(false);
-	const [numberValue, setNumberValue] = useState(0);
-	const configVerification = (attr: string, value: boolean) => {
+	const [checked, setChecked] = useState<boolean>(false);
+	const [numberValue, setNumberValue] = useState<number>(0);
+
+	const configVerification = (attr: string, value: boolean): void => {
 		if (attr === 'ip') {
 			configValid.ip = value;
 		}
@@ -70,17 +71,17 @@ export const LoginConfig: React.FC<LoginInputsProps> = ({ valid }): JSX.Element 
 	/**
 	 * ip verification
 	 */
-	function ValidateIpAddress(ipAddress: string | any[]) {
+	function ValidateIpAddress(ipAddress: string | any[]): void {
 		if (ipAddress !== undefined || ipAddress !== '') {
 			if (typeof ipAddress !== 'string' || ipAddress?.match(ipRegex)) {
 				// valid
 				setValide(false);
 				configVerification('ip', true);
-				console.log('ip is a valid IP address');
+				// console.log('ip is a valid IP address');
 				createNewConfig('ip', ipAddress);
 			} else {
 				// invalid
-				console.log('ip is not a valid IP address');
+				// console.log('ip is not a valid IP address');
 				configVerification('ip', false);
 				setValide(true);
 			}
@@ -90,27 +91,29 @@ export const LoginConfig: React.FC<LoginInputsProps> = ({ valid }): JSX.Element 
 	/**
 	 * Password
 	 */
-	const handleChangePW = (prop: string) => (event: { target: { value: any } }) => {
-		setValues({ ...values, [prop]: event.target.value });
+	const handleChangePW =
+		(prop: string) =>
+		(event: { target: { value: any } }): void => {
+			setValues({ ...values, [prop]: event.target.value });
 
-		createNewConfig('password', event.target.value);
-		if (event.target.value !== '') {
-			configVerification('password', true);
-			// console.log('password true');
-		} else {
-			configVerification('password', false);
-			// console.log('password false');
-		}
-	};
+			createNewConfig('password', event.target.value);
+			if (event.target.value !== '') {
+				configVerification('password', true);
+				// console.log('password true');
+			} else {
+				configVerification('password', false);
+				// console.log('password false');
+			}
+		};
 
-	const handleClickShowPassword = () => {
+	const handleClickShowPassword = (): void => {
 		setValues({ ...values, showPassword: !values.showPassword });
 	};
 
 	/**
 	 * Switch
 	 */
-	const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
 		setChecked(event.target.checked);
 		if (
 			fullConfig.config.name !== '' &&
@@ -129,7 +132,7 @@ export const LoginConfig: React.FC<LoginInputsProps> = ({ valid }): JSX.Element 
 		}
 	};
 
-	const handeleNumber = (attr: string, value: React.SetStateAction<number>) => {
+	const handeleNumber = (attr: string, value: React.SetStateAction<number>): void => {
 		setNumberValue(value);
 		createNewConfig(attr, value);
 		if (value !== 0) {
@@ -142,7 +145,7 @@ export const LoginConfig: React.FC<LoginInputsProps> = ({ valid }): JSX.Element 
 	const handleIpAddress = (
 		event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
 		newValue: string | any[],
-	) => {
+	): void => {
 		const length = newValue.length;
 		const index = newValue.lastIndexOf('.') + 1;
 		let noOfDots = 0;

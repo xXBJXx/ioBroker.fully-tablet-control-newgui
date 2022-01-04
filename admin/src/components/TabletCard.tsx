@@ -30,13 +30,13 @@ interface TabletCardProps {
 
 export const TabletCard: React.FC<TabletCardProps> = ({ config }) => {
 	const { translate: _ } = useI18n();
-	const [themeName, setTheme] = useIoBrokerTheme();
-	const [image, setImage] = useState({
+	const [themeName] = useIoBrokerTheme();
+	const [image, setImage] = useState<{ defaultImage: string; img: string; alt: string }>({
 		defaultImage: '',
 		img: '',
 		alt: '',
 	});
-	const [online, setOnline] = useState(false);
+	const [online, setOnline] = useState<boolean>(false);
 
 	const BgColor = (): string => {
 		switch (themeName) {

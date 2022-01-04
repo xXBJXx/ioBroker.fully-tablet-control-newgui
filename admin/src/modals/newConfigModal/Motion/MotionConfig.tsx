@@ -1,9 +1,7 @@
 /**
  * Created by issi on 31.10.21
  */
-import React, { useEffect, useState } from 'react';
-import { useI18n } from 'iobroker-react/hooks';
-import { useIoBrokerTheme } from 'iobroker-react/hooks';
+import { Ballot } from '@mui/icons-material';
 import {
 	Alert,
 	AlertTitle,
@@ -24,9 +22,10 @@ import {
 	Stack,
 	Tooltip,
 } from '@mui/material';
-import { clearMotionConfig, createNewConfig, fullConfig } from '../../../lib/createConfig';
+import { useI18n, useIoBrokerTheme } from 'iobroker-react/hooks';
+import React, { useEffect, useState } from 'react';
 import { HelperButton } from '../../../components/HelperButton';
-import { Ballot } from '@mui/icons-material';
+import { clearMotionConfig, createNewConfig, fullConfig } from '../../../lib/createConfig';
 
 export interface MotionConfigProps {
 	//props
@@ -34,16 +33,22 @@ export interface MotionConfigProps {
 	onClose: () => any;
 }
 
+interface motionValues {
+	motionActive: boolean;
+	motionId: string;
+	selectIdInfo: boolean;
+}
+
 const motionHelperLink = 'https://xxbjxx.github.io/language/en/Fully-Tablet-Control/07.Bewegungsmelder.html';
-export const MotionConfig: React.FC<MotionConfigProps> = ({ show, onClose }) => {
-	const [motionValues, setMotionValues] = useState({
+export const MotionConfig: React.FC<MotionConfigProps> = ({ show, onClose }): JSX.Element => {
+	const [motionValues, setMotionValues] = useState<motionValues>({
 		motionActive: false,
 		motionId: '',
 		selectIdInfo: false,
 	});
 
 	const { translate: _ } = useI18n();
-	const [themeName, setTheme] = useIoBrokerTheme();
+	const [themeName] = useIoBrokerTheme();
 
 	const BgColor = (): string => {
 		switch (themeName) {
@@ -63,7 +68,7 @@ export const MotionConfig: React.FC<MotionConfigProps> = ({ show, onClose }) => 
 		event:
 			| (Event & { target: { value: string; name: string } })
 			| React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-	) => {
+	): void => {
 		switch (attr) {
 			case 'active':
 				createNewConfig('motionActive', JSON.parse(event.target.value));
@@ -80,26 +85,26 @@ export const MotionConfig: React.FC<MotionConfigProps> = ({ show, onClose }) => 
 		}
 	};
 
-	const handleClickShow = (value: boolean) => {
+	const handleClickShow = (value: boolean): void => {
 		// setValues({ ...values, showPassword: !values.showPassword });
 		console.log('test');
 		setMotionValues({ ...motionValues, selectIdInfo: value });
 	};
 
-	useEffect(() => {
+	useEffect((): void => {
 		if (fullConfig.config.charger.chargerActive) {
 			setMotionValues({ ...motionValues, motionActive: true });
 		}
 	}, [show]);
 
-	const handleAdd = () => {
+	const handleAdd = (): void => {
 		console.log(`add Motion configuration =>  ${JSON.stringify(fullConfig.config.motion)}`);
 		setMotionValues({ ...motionValues, motionActive: false });
 		onClose();
 		// clearMotionConfig();
 	};
 
-	const handleClose = () => {
+	const handleClose = (): void => {
 		setMotionValues({ ...motionValues, motionActive: false });
 		onClose();
 		clearMotionConfig();

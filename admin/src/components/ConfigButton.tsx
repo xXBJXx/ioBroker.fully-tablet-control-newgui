@@ -11,12 +11,12 @@ import { ScreensaverConfig } from '../modals/newConfigModal/Screensaver/Screensa
 import { TelegramConfig } from '../modals/newConfigModal/Telegram/TelegramConfig';
 
 export const ConfigButton = (): JSX.Element => {
-	const [showChargingConfig, setShowChargingConfig] = useState(false);
-	const [showBrightnessConfig, setShowBrightnessConfig] = useState(false);
-	const [showScreensaverConfig, setShowScreensaverConfig] = useState(false);
-	const [showTelegramConfig, setShowTelegramConfig] = useState(false);
-	const [showMotionConfig, setShowMotionConfig] = useState(false);
-	const [showImageShotConfig, setShowImageShotConfig] = useState(false);
+	const [showChargingConfig, setShowChargingConfig] = useState<boolean>(false);
+	const [showBrightnessConfig, setShowBrightnessConfig] = useState<boolean>(false);
+	const [showScreensaverConfig, setShowScreensaverConfig] = useState<boolean>(false);
+	const [showTelegramConfig, setShowTelegramConfig] = useState<boolean>(false);
+	const [showMotionConfig, setShowMotionConfig] = useState<boolean>(false);
+	const [showImageShotConfig, setShowImageShotConfig] = useState<boolean>(false);
 
 	const handleShowChargingConfig = () => setShowChargingConfig(true);
 	const handleCloseChargingConfig = () => setShowChargingConfig(false);

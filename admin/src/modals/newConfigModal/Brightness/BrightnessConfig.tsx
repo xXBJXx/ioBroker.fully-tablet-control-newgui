@@ -1,9 +1,6 @@
 /**
  * Created by issi on 31.10.21
  */
-import React, { useCallback, useEffect, useState } from 'react';
-import { useI18n } from 'iobroker-react/hooks';
-import { useIoBrokerTheme } from 'iobroker-react/hooks';
 import {
 	Box,
 	Button,
@@ -19,12 +16,14 @@ import {
 	SelectChangeEvent,
 	Typography,
 } from '@mui/material';
-import { HelperButton } from '../../../components/HelperButton';
-import { ManualTimeInput } from '../../../components/ManualTimeInput';
-import { clearBrightnessConfig, createNewConfig, fullConfig } from '../../../lib/createConfig';
-import { NumberInput } from '../../../components/NumberInput';
+import { useI18n, useIoBrokerTheme } from 'iobroker-react/hooks';
+import React, { useEffect, useState } from 'react';
 import { AstroTimeSelect } from '../../../components/AstroTimeSelect';
 import { BrightnessInput } from '../../../components/BrightnessInput';
+import { HelperButton } from '../../../components/HelperButton';
+import { ManualTimeInput } from '../../../components/ManualTimeInput';
+import { NumberInput } from '../../../components/NumberInput';
+import { clearBrightnessConfig, createNewConfig, fullConfig } from '../../../lib/createConfig';
 
 export interface BrightnessConfigProps {
 	//props
@@ -33,14 +32,14 @@ export interface BrightnessConfigProps {
 }
 
 const brightnessHelperLink = 'https://xxbjxx.github.io/language/en/Fully-Tablet-Control/04.brightness.html';
-export const BrightnessConfig: React.FC<BrightnessConfigProps> = ({ show, onClose }) => {
+export const BrightnessConfig: React.FC<BrightnessConfigProps> = ({ show, onClose }): JSX.Element => {
 	const { translate: _ } = useI18n();
-	const [themeName, setTheme] = useIoBrokerTheme();
-	const [brightnessActive, setBrightnessActive] = useState(false);
-	const [brightnessMode, setBrightnessMode] = useState(true);
-	const [screenOn, setScreenOn] = useState(true);
-	const [brightnessTimeMode, setBrightnessTimeMode] = useState(true);
-	const [numberValue, setNumberValue] = useState(0);
+	const [themeName] = useIoBrokerTheme();
+	const [brightnessActive, setBrightnessActive] = useState<boolean>(false);
+	const [brightnessMode, setBrightnessMode] = useState<boolean>(true);
+	const [screenOn, setScreenOn] = useState<boolean>(true);
+	const [brightnessTimeMode, setBrightnessTimeMode] = useState<boolean>(true);
+	const [numberValue, setNumberValue] = useState<number>(0);
 
 	const BgColor = (): string => {
 		switch (themeName) {
@@ -55,7 +54,7 @@ export const BrightnessConfig: React.FC<BrightnessConfigProps> = ({ show, onClos
 		}
 	};
 
-	const handleChange = (attr: string, event: SelectChangeEvent<string>) => {
+	const handleChange = (attr: string, event: SelectChangeEvent<string>): void => {
 		switch (attr) {
 			case 'active':
 				if (event.target.value === 'true' || event.target.value == 'false') {
@@ -87,27 +86,27 @@ export const BrightnessConfig: React.FC<BrightnessConfigProps> = ({ show, onClos
 		}
 	};
 
-	useEffect(() => {
+	useEffect((): void => {
 		if (fullConfig.config.brightness.brightnessActive) {
 			setBrightnessActive(true);
 		}
 		console.log('test useEffect');
 	}, [show]);
 
-	const handleAdd = () => {
+	const handleAdd = (): void => {
 		console.log(`add Brightness configuration =>  ${JSON.stringify(fullConfig.config.brightness)}`);
 		setBrightnessActive(false);
 		onClose();
 		// clearBrightnessConfig();
 	};
 
-	const handleClose = () => {
+	const handleClose = (): void => {
 		setBrightnessActive(false);
 		onClose();
 		clearBrightnessConfig();
 	};
 
-	const handeleNumber = (attr: string, value: React.SetStateAction<number>) => {
+	const handeleNumber = (attr: string, value: React.SetStateAction<number>): void => {
 		setNumberValue(value);
 		createNewConfig(attr, value);
 	};
