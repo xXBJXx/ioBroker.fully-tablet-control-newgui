@@ -1,14 +1,14 @@
+import { Description, GitHub } from '@mui/icons-material';
 import { Fab, Grid, Tooltip } from '@mui/material';
-import React from 'react';
-import { GitHub, Description } from '@mui/icons-material';
 import { useI18n } from 'iobroker-react/hooks';
+import React from 'react';
 
 const Url = {
 	issues: 'https://github.com/xXBJXx/ioBroker.fully_react_test/issues',
-	docu: 'https://xxbjxx.github.io/language/en/Fully-Tablet-Control/01.description.html',
+	doc: 'https://xxbjxx.github.io/language/en/Fully-Tablet-Control/01.description.html',
 };
 
-export const AdapterHeader = () => {
+export const AdapterHeader = (): JSX.Element => {
 	const { translate: _ } = useI18n();
 
 	return (
@@ -43,15 +43,15 @@ export const AdapterHeader = () => {
 						GitHub Issues
 					</Fab>
 				</Tooltip>
-				<Tooltip title={_('docu')} sx={{ verticalAlign: 'middle' }} arrow>
+				<Tooltip title={_('doc')} sx={{ verticalAlign: 'middle' }} arrow>
 					<Fab
-						href={Url.docu}
+						href={Url.doc}
 						target="_blank"
 						rel="noreferrer"
 						variant="extended"
 						size="medium"
 						color="primary"
-						aria-label="docu"
+						aria-label="doc"
 						sx={{ margin: 1 }}
 					>
 						<Description sx={{ margin: 1, marginLeft: 0 }} />
