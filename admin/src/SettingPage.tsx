@@ -7,11 +7,6 @@ import { TabletCard } from './components/TabletCard';
 import { fullConfig } from './lib/createConfig';
 import { AddDeviceDialog, result } from './modals/newConfigModal/AddDeviceDialog';
 
-// export interface SettingPageProps {
-// 	onChange: (value: any) => void;
-// 	native: ioBroker.AdapterConfig;
-// }
-
 export const SettingPage = (): JSX.Element => {
 	const { translate: _ } = useI18n();
 	const [themeName] = useIoBrokerTheme();

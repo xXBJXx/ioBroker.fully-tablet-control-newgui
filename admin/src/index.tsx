@@ -37,8 +37,8 @@ const SettingsPageContent: React.FC = React.memo((): JSX.Element => {
 const migrateSettings = (settings: ioBroker.AdapterConfig): void => {
 	// Here's an example for editing settings after they are loaded from the backend
 	// In this case, option1 will be set to true by default
-	if (settings.tablets === undefined) {
-		settings.tablets = [];
+	if (settings.option === undefined) {
+		settings.option = [];
 	}
 };
 
