@@ -3,7 +3,7 @@ import { useConnection, useGlobals, useI18n, useIoBrokerTheme } from 'iobroker-r
 import React, { useCallback, useState } from 'react';
 import { ConfigButton } from '../../components/ConfigButton';
 import { clearConfig, fullConfig } from '../../lib/createConfig';
-import { NewTabletConfig } from './NewTabletConfig';
+import { LoginConfig } from './Login/LoginConfig';
 
 export interface result {
 	deviceModel: string;
@@ -18,7 +18,6 @@ export interface AddDeviceDialogProps {
 export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({ addDevice }): JSX.Element => {
 	const [open, setOpen] = React.useState<boolean>(false);
 	const [addButton, setAddButton] = useState<boolean>(true);
-	const [valideConfig, setValideConfig] = useState<boolean>(false);
 
 	const { translate: _ } = useI18n();
 	const [themeName] = useIoBrokerTheme();
@@ -43,41 +42,27 @@ export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({ addDevice }): 
 	 */
 	const handleClickAdd = useCallback(async (): Promise<void> => {
 		// TODO add Device sendTo actived
-		const result = await connection.sendTo(namespace, 'newConfig', fullConfig);
-		if (!result) console.error('Nope!');
+		// const result = await connection.sendTo(namespace, 'newConfig', fullConfig);
+		// if (!result) console.error('Nope!');
 		// if (result) console.info(result);
-		if (result) {
-			addDevice(result);
-		}
+		// if (result) {
+		// 	addDevice(result);
+		// }
 		console.log(fullConfig);
 		setAddButton(true);
 		clearConfig();
 		setOpen(false);
-		// addDevice();
 	}, [connection, namespace]);
 
 	const handleClickOpen = (): void => {
-		// console.log(fullConfig);
 		clearConfig();
 		setOpen(true);
 	};
 
 	const handleClose = (): void => {
-		// console.log(fullConfig);
 		clearConfig();
 		setOpen(false);
 		setAddButton(true);
-		setValideConfig(false);
-	};
-
-	const handleValidConfig = (attr: string, value: boolean): void => {
-		switch (attr) {
-			case 'Login':
-				setValideConfig(value);
-				// console.log('handleValidConfig' + value);
-				value ? setAddButton(false) : setAddButton(true);
-				break;
-		}
 	};
 
 	return (
@@ -121,7 +106,7 @@ export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({ addDevice }): 
 						justifyContent: 'center',
 					}}
 				>
-					<NewTabletConfig validConfig={(attr, value) => handleValidConfig(attr, value)} />
+					<LoginConfig valid={(value) => setAddButton(value)} />
 					<ConfigButton />
 				</DialogContent>
 				<DialogActions>

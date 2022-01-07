@@ -25,7 +25,7 @@ import {
 import { useI18n, useIoBrokerTheme } from 'iobroker-react/hooks';
 import React, { useEffect, useState } from 'react';
 import { HelperButton } from '../../../components/HelperButton';
-import { clearMotionConfig, createNewConfig, fullConfig } from '../../../lib/createConfig';
+import { clearMotionConfig, fullConfig } from '../../../lib/createConfig';
 
 export interface MotionConfigProps {
 	//props
@@ -46,6 +46,7 @@ export const MotionConfig: React.FC<MotionConfigProps> = ({ show, onClose }): JS
 		motionId: '',
 		selectIdInfo: false,
 	});
+	const [buttonActive, setButtonActive] = useState(true);
 
 	const { translate: _ } = useI18n();
 	const [themeName] = useIoBrokerTheme();
@@ -63,6 +64,15 @@ export const MotionConfig: React.FC<MotionConfigProps> = ({ show, onClose }): JS
 		}
 	};
 
+	const handleVerification = () => {
+		if (fullConfig.config.motion.motionActive && fullConfig.config.motion.motionId !== '') {
+			setButtonActive(false);
+		} else {
+			console.log('buttonActive true');
+			setButtonActive(true);
+		}
+	};
+
 	const handleChange = (
 		attr: string,
 		event:
@@ -71,23 +81,20 @@ export const MotionConfig: React.FC<MotionConfigProps> = ({ show, onClose }): JS
 	): void => {
 		switch (attr) {
 			case 'active':
-				createNewConfig('motionActive', JSON.parse(event.target.value));
+				fullConfig.config.motion.motionActive = JSON.parse(event.target.value);
 				setMotionValues({ ...motionValues, motionActive: JSON.parse(event.target.value) });
-				if (!JSON.parse(event.target.value)) {
-					clearMotionConfig();
-				}
+				handleVerification();
 				break;
 
 			case 'motionId':
-				createNewConfig('motionId', event.target.value);
+				fullConfig.config.motion.motionId = event.target.value;
 				setMotionValues({ ...motionValues, motionId: event.target.value });
+				handleVerification();
 				break;
 		}
 	};
 
 	const handleClickShow = (value: boolean): void => {
-		// setValues({ ...values, showPassword: !values.showPassword });
-		console.log('test');
 		setMotionValues({ ...motionValues, selectIdInfo: value });
 	};
 
@@ -101,7 +108,6 @@ export const MotionConfig: React.FC<MotionConfigProps> = ({ show, onClose }): JS
 		console.log(`add Motion configuration =>  ${JSON.stringify(fullConfig.config.motion)}`);
 		setMotionValues({ ...motionValues, motionActive: false });
 		onClose();
-		// clearMotionConfig();
 	};
 
 	const handleClose = (): void => {
@@ -219,7 +225,9 @@ export const MotionConfig: React.FC<MotionConfigProps> = ({ show, onClose }): JS
 				) : null}
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleAdd}>{_('add')}</Button>
+				<Button onClick={handleAdd} disabled={fullConfig.config.motion.motionActive ? buttonActive : false}>
+					{_('add')}
+				</Button>
 				<Button onClick={handleClose}>{_('Cancel')}</Button>
 			</DialogActions>
 		</Dialog>

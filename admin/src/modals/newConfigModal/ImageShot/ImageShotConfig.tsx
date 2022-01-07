@@ -20,7 +20,7 @@ import { useI18n, useIoBrokerTheme } from 'iobroker-react/hooks';
 import React, { useState } from 'react';
 import { HelperButton } from '../../../components/HelperButton';
 import { NumberInput } from '../../../components/NumberInput';
-import { clearImageCaptureConfig, createNewConfig, fullConfig } from '../../../lib/createConfig';
+import { clearImageCaptureConfig, fullConfig } from '../../../lib/createConfig';
 
 export interface ImageShotConfigProps {
 	//props
@@ -47,6 +47,7 @@ export const ImageShotConfig: React.FC<ImageShotConfigProps> = ({ show, onClose 
 		seriesShotSafe: 2,
 		imageTimeout: 1,
 	});
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [numberValue, setNumberValue] = useState<number>(0);
 
 	const BgColor = (): string => {
@@ -70,15 +71,12 @@ export const ImageShotConfig: React.FC<ImageShotConfigProps> = ({ show, onClose 
 	): void => {
 		switch (attr) {
 			case 'autoMotionDetection':
-				createNewConfig('autoMotionDetection', JSON.parse(event.target.value));
+				fullConfig.config.imageCapture.autoMotionDetection = JSON.parse(event.target.value);
 				setImageShotValues({ ...imageShotValues, autoMotionDetection: JSON.parse(event.target.value) });
-				if (!JSON.parse(event.target.value)) {
-					clearImageCaptureConfig();
-				}
 				break;
 
 			case 'recordMode':
-				createNewConfig('recordMode', JSON.parse(event.target.value));
+				fullConfig.config.imageCapture.recordMode = JSON.parse(event.target.value);
 				setImageShotValues({ ...imageShotValues, recordMode: JSON.parse(event.target.value) });
 				break;
 		}
@@ -96,7 +94,7 @@ export const ImageShotConfig: React.FC<ImageShotConfigProps> = ({ show, onClose 
 
 	const handeleNumber = (attr: string, value: React.SetStateAction<number>): void => {
 		setNumberValue(value);
-		createNewConfig(attr, value);
+		fullConfig.config.imageCapture[attr] = value;
 	};
 
 	return (

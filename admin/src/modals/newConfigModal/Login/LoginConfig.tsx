@@ -9,136 +9,86 @@ import {
 	InputAdornment,
 	InputLabel,
 	OutlinedInput,
-	Switch,
 	TextField,
 	Tooltip,
+	Typography,
 } from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
 import React, { useState } from 'react';
+import { HelperButton } from '../../../components/HelperButton';
 import { NumberInput } from '../../../components/NumberInput';
-import { createNewConfig, fullConfig } from '../../../lib/createConfig';
+import { fullConfig } from '../../../lib/createConfig';
 
-export interface LoginInputsProps {
-	valid: (attr: string, valid: boolean) => void;
+export interface validProps {
+	valid: (value: boolean) => void;
 }
+
 interface valuesProps {
 	ip: string | any[];
 	password: string;
 	showPassword: boolean;
 }
 
-const configValid = { ip: false, port: true, password: false, active: false };
-
 const allowedInputRegex = /^\d*\.?\d*\.?\d*\.?\d*$/;
 const ipRegex = /^(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)(?:\.(?!$)|$)){4}$/; //regex from https://regex101.com/library/ChFXjy
-export const LoginConfig: React.FC<LoginInputsProps> = ({ valid }): JSX.Element => {
+const LoginHelperLink = 'https://xxbjxx.github.io/language/en/Fully-Tablet-Control/02.Login.html';
+
+export const LoginConfig: React.FC<validProps> = ({ valid }): JSX.Element => {
 	const { translate: _ } = useI18n();
 	const [valide, setValide] = useState<boolean>(true);
-	// const [ipValue, setIpValue] = useState:string | any[]  ('');
 	const [values, setValues] = useState<valuesProps>({
 		ip: '',
 		password: '',
 		showPassword: false,
 	});
-	const [checked, setChecked] = useState<boolean>(false);
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [numberValue, setNumberValue] = useState<number>(0);
+	const [name, setName] = useState<string>('');
+	const [error, setError] = useState<boolean>(true);
 
-	const configVerification = (attr: string, value: boolean): void => {
-		if (attr === 'ip') {
-			configValid.ip = value;
-		}
-		if (attr === 'port') {
-			configValid.port = value;
-		}
-		if (attr === 'password') {
-			configValid.password = value;
-		}
-		if (attr === 'active') {
-			configValid.active = value;
-		}
-
-		if (configValid.ip && configValid.port && configValid.password && configValid.active) {
-			setChecked(true);
-			createNewConfig('active', true);
-			valid('login', true);
+	const configVerification = (): void => {
+		const name = fullConfig.config.name;
+		const ip4 = fullConfig.config.Login.ip;
+		const port = fullConfig.config.Login.port;
+		const password = fullConfig.config.Login.password;
+		if (name !== '' && ip4 !== '' && port !== 0 && password !== '') {
+			valid(false);
 		} else {
-			setChecked(false);
-			createNewConfig('active', false);
-			valid('login', false);
+			valid(true);
 		}
 	};
-
-	/**
-	 * ip verification
-	 */
-	function ValidateIpAddress(ipAddress: string | any[]): void {
-		if (ipAddress !== undefined || ipAddress !== '') {
-			if (typeof ipAddress !== 'string' || ipAddress?.match(ipRegex)) {
-				// valid
-				setValide(false);
-				configVerification('ip', true);
-				// console.log('ip is a valid IP address');
-				createNewConfig('ip', ipAddress);
-			} else {
-				// invalid
-				// console.log('ip is not a valid IP address');
-				configVerification('ip', false);
-				setValide(true);
-			}
-		}
-	}
 
 	/**
 	 * Password
 	 */
 	const handleChangePW =
-		(prop: string) =>
+		(attr: string) =>
 		(event: { target: { value: any } }): void => {
-			setValues({ ...values, [prop]: event.target.value });
-
-			createNewConfig('password', event.target.value);
-			if (event.target.value !== '') {
-				configVerification('password', true);
-				// console.log('password true');
-			} else {
-				configVerification('password', false);
-				// console.log('password false');
-			}
+			setValues({ ...values, [attr]: event.target.value });
+			fullConfig.config.Login.password = event.target.value;
+			configVerification();
 		};
 
 	const handleClickShowPassword = (): void => {
 		setValues({ ...values, showPassword: !values.showPassword });
 	};
 
-	/**
-	 * Switch
-	 */
-	const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-		setChecked(event.target.checked);
-		if (
-			fullConfig.config.name !== '' &&
-			fullConfig.config.Login.ip !== '' &&
-			fullConfig.config.Login.port !== 0 &&
-			fullConfig.config.Login.password !== ''
-		) {
-			if (event.target.checked) {
-				configVerification('active', true);
-			} else {
-				configVerification('active', false);
-			}
-		} else {
-			setChecked(false);
-			configVerification('active', false);
-		}
-	};
-
 	const handeleNumber = (attr: string, value: React.SetStateAction<number>): void => {
 		setNumberValue(value);
-		createNewConfig(attr, value);
-		if (value !== 0) {
-			configVerification('port', true);
-		} else {
-			configVerification('port', false);
+		if (typeof value === 'number') {
+			switch (attr) {
+				case 'interval': {
+					fullConfig.config.interval = value;
+					configVerification();
+					break;
+				}
+				case 'port': {
+					fullConfig.config.Login.port = value;
+					configVerification();
+					break;
+				}
+			}
 		}
 	};
 
@@ -154,106 +104,166 @@ export const LoginConfig: React.FC<LoginInputsProps> = ({ valid }): JSX.Element 
 		}
 		let updatedVal: string | any[] = '';
 		if (length !== index && noOfDots < 3 && values.ip.length < length && (length - index) % 3 == 0) {
-			console.log('1');
 			updatedVal = newValue + '.';
 		} else if (noOfDots > 3 || length - index > 3) {
-			console.log('2');
 			if (typeof newValue === 'string') {
 				updatedVal = newValue.substring(0, length - 1);
 			}
 		} else {
-			console.log('3');
 			updatedVal = newValue;
 		}
 		setValues({ ...values, ip: updatedVal });
-		ValidateIpAddress(updatedVal);
+
+		if (updatedVal !== undefined || updatedVal !== '') {
+			if (typeof updatedVal !== 'string' || updatedVal?.match(ipRegex)) {
+				// valid
+				if (typeof updatedVal === 'string') {
+					fullConfig.config.Login.ip = updatedVal;
+					configVerification();
+				}
+				setValide(false);
+			} else {
+				// invalid
+				setValide(true);
+			}
+		}
+	};
+
+	const handleChangeName = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => {
+		const newName: string = event.target.value;
+
+		if (newName !== '') {
+			setName(newName);
+			fullConfig.config.name = newName;
+			configVerification();
+			setError(false);
+		} else {
+			setName('');
+			fullConfig.config.name = '';
+			configVerification();
+			setError(true);
+		}
 	};
 
 	return (
-		<Grid
-			container
-			spacing={3}
-			sx={{
-				marginTop: '0',
-				paddingBottom: '15px',
-				alignItems: 'center',
-				justifyContent: 'space-around',
-				display: 'flex',
-				flexWrap: 'nowrap',
-				flexDirection: 'row',
-			}}
-		>
-			<React.Fragment>
-				<FormControl variant="outlined">
-					<Tooltip title={_('tooltipIp')} arrow>
-						<TextField
-							required
-							variant="outlined"
-							error={valide}
-							color="success"
-							label={_('ipAddress')}
-							value={values.ip}
-							type="text"
-							placeholder="192.168.1.1"
-							sx={{ width: '22ch', margin: 1 }}
-							inputProps={{
-								maxLength: 15,
-							}}
-							onChange={(e) => {
-								const newValue = e.target.value;
-
-								if (allowedInputRegex.test(newValue)) {
-									handleIpAddress(e, newValue);
-								}
-							}}
-						/>
-					</Tooltip>
-				</FormControl>
-				<NumberInput
-					min={0}
-					max={9999}
-					label={'port'}
-					tooltip={'tooltipPort'}
-					defaultValue={2323}
-					sx={{ width: '12ch', margin: 1, textAlignLast: 'center' }}
-					value={fullConfig.config.Login.port}
-					createNewConfig={(value) => handeleNumber('port', value)}
-				/>
-				<FormControl sx={{ m: 1, width: '20ch' }} variant="outlined">
-					<InputLabel htmlFor="outlined-adornment-password">{_('Password')}</InputLabel>
-					<Tooltip title={_('tooltipPassword')} arrow>
-						<OutlinedInput
-							id="outlined-adornment-password"
-							type={values.showPassword ? 'text' : 'password'}
-							value={values.password}
-							onChange={handleChangePW('password')}
-							endAdornment={
-								<InputAdornment position="end">
-									<IconButton
-										aria-label="toggle password visibility"
-										onClick={handleClickShowPassword}
-										edge="end"
-									>
-										{values.showPassword ? <VisibilityOff /> : <Visibility />}
-									</IconButton>
-								</InputAdornment>
-							}
-							label="Password"
-						/>
-					</Tooltip>
-				</FormControl>
-				<Tooltip title={_('active')} arrow>
-					<Switch
-						checked={checked}
-						onChange={(e) => {
-							handleSwitchChange(e);
-							createNewConfig('active', e.target.checked);
+		<React.Fragment>
+			<Grid
+				container
+				spacing={3}
+				sx={{
+					marginTop: '10px',
+					paddingBottom: '15px',
+					alignItems: 'center',
+					justifyContent: 'space-around',
+					display: 'flex',
+					flexWrap: 'nowrap',
+					flexDirection: 'row',
+				}}
+			>
+				<Tooltip title={_('tooltipTabletName')} arrow>
+					<TextField
+						required
+						error={error}
+						label={_('tabletName')}
+						color="success"
+						value={name}
+						type={'text'}
+						placeholder="Samsung"
+						inputProps={{
+							maxLength: 20,
 						}}
-						color="primary"
-						inputProps={{ 'aria-label': 'controlled' }}
+						onChange={(event) => {
+							handleChangeName(event);
+						}}
 					/>
 				</Tooltip>
-			</React.Fragment>
-		</Grid>
+				<NumberInput
+					min={30}
+					max={999}
+					label={'interval'}
+					tooltip={'screensaverTimeTooltip'}
+					defaultValue={30}
+					sx={{ margin: 1, width: '110', textAlignLast: 'center' }}
+					value={fullConfig.config.interval}
+					createNewConfig={(value) => handeleNumber('interval', value)}
+				/>
+				<HelperButton helperLink={LoginHelperLink} helperTooltipTitle="LoginHelper" />
+			</Grid>
+			<Typography sx={{ textAlign: 'center', paddingBottom: '10px' }}>{_('FullyLogin')}</Typography>
+			<Grid
+				container
+				spacing={3}
+				sx={{
+					marginTop: '0',
+					paddingBottom: '15px',
+					alignItems: 'center',
+					justifyContent: 'space-around',
+					display: 'flex',
+					flexWrap: 'nowrap',
+					flexDirection: 'row',
+				}}
+			>
+				<React.Fragment>
+					<FormControl variant="outlined">
+						<Tooltip title={_('tooltipIp')} arrow>
+							<TextField
+								required
+								variant="outlined"
+								error={valide}
+								color="success"
+								label={_('ipAddress')}
+								value={values.ip}
+								type="text"
+								placeholder="192.168.1.1"
+								sx={{ width: '23ch', margin: 1 }}
+								inputProps={{
+									maxLength: 15,
+								}}
+								onChange={(e) => {
+									const newValue = e.target.value;
+
+									if (allowedInputRegex.test(newValue)) {
+										handleIpAddress(e, newValue);
+									}
+								}}
+							/>
+						</Tooltip>
+					</FormControl>
+					<NumberInput
+						min={0}
+						max={9999}
+						label={'port'}
+						tooltip={'tooltipPort'}
+						defaultValue={2323}
+						sx={{ width: '12ch', margin: 1, textAlignLast: 'center' }}
+						value={fullConfig.config.Login.port}
+						createNewConfig={(value) => handeleNumber('port', value)}
+					/>
+					<FormControl sx={{ m: 1, width: '20ch' }} variant="outlined">
+						<InputLabel htmlFor="outlined-adornment-password">{_('Password')}</InputLabel>
+						<Tooltip title={_('tooltipPassword')} arrow>
+							<OutlinedInput
+								id="outlined-adornment-password"
+								type={values.showPassword ? 'text' : 'password'}
+								value={values.password}
+								onChange={handleChangePW('password')}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={handleClickShowPassword}
+											edge="end"
+										>
+											{values.showPassword ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								}
+								label="Password"
+							/>
+						</Tooltip>
+					</FormControl>
+				</React.Fragment>
+			</Grid>
+		</React.Fragment>
 	);
 };

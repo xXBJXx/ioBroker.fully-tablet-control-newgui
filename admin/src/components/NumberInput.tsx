@@ -23,7 +23,7 @@ interface NumberInputProps {
  *
  * 		setNumberValue(value);
  *
- * 		createNewConfig(attr, value);
+ * 		fullConfig.config.$sectionAttr$[attr] = value
  *
  * 	};
  */
@@ -37,6 +37,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 	sx,
 	createNewConfig,
 }): JSX.Element => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [values, setValues] = useState<number>(defaultValue);
 	const { translate: _ } = useI18n();
 
@@ -58,7 +59,6 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 								if (newValue > max) newValue = max;
 								if (newValue < min) newValue = min;
 								setValues(newValue);
-								// console.log(native);
 								createNewConfig(newValue);
 							} else {
 								const value = min;

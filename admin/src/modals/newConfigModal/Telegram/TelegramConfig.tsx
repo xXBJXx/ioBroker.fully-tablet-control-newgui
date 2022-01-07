@@ -20,7 +20,7 @@ import { Theme, useTheme } from '@mui/material/styles';
 import { useI18n, useIoBrokerState, useIoBrokerTheme } from 'iobroker-react/hooks';
 import React, { useEffect, useState } from 'react';
 import { HelperButton } from '../../../components/HelperButton';
-import { clearTelegramConfig, createNewConfig, fullConfig } from '../../../lib/createConfig';
+import { clearTelegramConfig, fullConfig } from '../../../lib/createConfig';
 
 export interface TelegramConfigProps {
 	//props
@@ -51,13 +51,14 @@ const telegramHelperLink = 'https://xxbjxx.github.io/language/en/Fully-Tablet-Co
 export const TelegramConfig: React.FC<TelegramConfigProps> = ({ show, onClose }): JSX.Element => {
 	const theme = useTheme();
 	const { translate: _ } = useI18n();
-	const [themeName, setTheme] = useIoBrokerTheme();
+	const [themeName] = useIoBrokerTheme();
 	const [personName, setPersonName] = React.useState<string[]>([]);
 	const [telegramUser] = useIoBrokerState({
 		id: 'telegram.0.communicate.users',
 		subscribe: true,
 	});
-	const [TelegramActive, setTelegramActive] = useState<boolean>(false);
+	const [telegramActive, setTelegramActive] = useState<boolean>(false);
+	const [buttonActive, setButtonActive] = useState(true);
 	const BgColor = (): string => {
 		switch (themeName) {
 			case 'dark':
@@ -68,6 +69,17 @@ export const TelegramConfig: React.FC<TelegramConfigProps> = ({ show, onClose })
 				return '#b7b7b7';
 			case 'colored':
 				return '#b7b7b7';
+		}
+	};
+
+	const handleVerification = (): void => {
+		if (
+			fullConfig.config.telegram.telegramActive &&
+			fullConfig.config.telegram.multipleTelegramUserName.length !== 0
+		) {
+			setButtonActive(false);
+		} else {
+			setButtonActive(true);
 		}
 	};
 
@@ -85,31 +97,25 @@ export const TelegramConfig: React.FC<TelegramConfigProps> = ({ show, onClose })
 
 	const handleChange = (
 		attr: string,
-		event:
-			| React.ChangeEvent<HTMLInputElement>
-			| (Event & { target: { value: string; name: string } })
-			| (Event & { target: { value: string[]; name: string } }),
+		event: React.ChangeEvent<HTMLInputElement> | (Event & { target: { value: string | string[]; name: string } }),
 	): void => {
 		switch (attr) {
-			case 'active':
-				createNewConfig('telegramActive', event.target.value);
-				setTelegramActive(JSON.parse(event.target.value as string));
-				if (!event.target.value) {
-					clearTelegramConfig();
-				}
+			case 'active': {
+				const value = JSON.parse(event.target.value as string);
+				setTelegramActive(value);
+				fullConfig.config.telegram.telegramActive = JSON.parse(event.target.value as string);
+				handleVerification();
 				break;
-
-			case 'user':
+			}
+			case 'user': {
 				const {
 					target: { value },
 				} = event;
-				setPersonName(
-					// On autofill we get a stringified value.
-					typeof value === 'string' ? value.split(',') : value,
-				);
-				createNewConfig('multipleTelegramUserName', event.target.value);
-				// console.log(fullConfig.config.telegram.multipleTelegramUserName);
+				setPersonName(typeof value === 'string' ? value.split(',') : value);
+				fullConfig.config.telegram.multipleTelegramUserName = event.target.value;
+				handleVerification();
 				break;
+			}
 		}
 	};
 
@@ -168,7 +174,7 @@ export const TelegramConfig: React.FC<TelegramConfigProps> = ({ show, onClose })
 					</Box>
 					<HelperButton helperLink={telegramHelperLink} helperTooltipTitle="TelegramHelper" />
 				</Grid>
-				{TelegramActive ? (
+				{telegramActive ? (
 					<Grid
 						container
 						spacing={0}
@@ -194,6 +200,8 @@ export const TelegramConfig: React.FC<TelegramConfigProps> = ({ show, onClose })
 								input={<OutlinedInput id="select-multiple-chip" label="Telegram User" />}
 								renderValue={(selected) => (
 									<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+										{/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+										{/*// @ts-ignore*/}
 										{selected.map((value) => (
 											<Chip key={value} label={value} />
 										))}
@@ -212,7 +220,9 @@ export const TelegramConfig: React.FC<TelegramConfigProps> = ({ show, onClose })
 				) : null}
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleAdd}>{_('add')}</Button>
+				<Button onClick={handleAdd} disabled={fullConfig.config.telegram.telegramActive ? buttonActive : false}>
+					{_('add')}
+				</Button>
 				<Button onClick={handleClose}>{_('Cancel')}</Button>
 			</DialogActions>
 		</Dialog>

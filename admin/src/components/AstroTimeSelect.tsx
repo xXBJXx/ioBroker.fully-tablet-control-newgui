@@ -4,7 +4,7 @@
 import { Box, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
 import React, { useState } from 'react';
-import { createNewConfig, fullConfig } from '../lib/createConfig';
+import { fullConfig } from '../lib/createConfig';
 
 const astro: string[] = [
 	'sunrise',
@@ -31,13 +31,17 @@ export const AstroTimeSelect = (): JSX.Element => {
 	const [brightnessAstroNight, setBrightnessAstroNight] = useState<string>('sunset');
 
 	const handleChangeNight = (event: { target: { value: React.SetStateAction<string> } }) => {
-		createNewConfig('astroSelectNight', event.target.value);
-		setBrightnessAstroNight(event.target.value);
+		if (typeof event.target.value === 'string') {
+			fullConfig.config.brightness.astroSelectNight = event.target.value;
+			setBrightnessAstroNight(event.target.value);
+		}
 	};
 
 	const handleChangeDay = (event: { target: { value: React.SetStateAction<string> } }) => {
-		createNewConfig('astroSelectDay', event.target.value);
-		setBrightnessAstroDay(event.target.value);
+		if (typeof event.target.value === 'string') {
+			fullConfig.config.brightness.astroSelectDay = event.target.value;
+			setBrightnessAstroDay(event.target.value);
+		}
 	};
 
 	const astroSelect = (key: string): JSX.Element[] => {

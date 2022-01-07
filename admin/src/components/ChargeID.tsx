@@ -18,23 +18,33 @@ import {
 } from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
 import React, { useState } from 'react';
-import { createNewConfig, fullConfig } from '../lib/createConfig';
+import { fullConfig } from '../lib/createConfig';
+
+interface ChargeIDProps {
+	valid: (value: boolean) => void;
+}
 
 //TODO: mit selectID ersetzen sobald verfügbar
-export const ChargeID = (): JSX.Element => {
+export const ChargeID: React.FC<ChargeIDProps> = ({ valid }): JSX.Element => {
 	const [values, setValues] = useState({
 		chargerId: '',
 		showSelectId: false,
 	});
 	const { translate: _ } = useI18n();
 
-	const handleChange = (prop: string) => (event: { target: { value: any } }) => {
-		setValues({ ...values, [prop]: event.target.value });
-		createNewConfig('chargerId', event.target.value);
-		// passwordObj('chargerId', event.target.value);
-	};
+	const handleChange =
+		(attr: string) =>
+		(event: { target: { value: any } }): void => {
+			setValues({ ...values, [attr]: event.target.value });
+			fullConfig.config.charger[attr] = event.target.value;
+			if (event.target.value !== '') {
+				valid(false);
+			} else {
+				valid(true);
+			}
+		};
 
-	const handleClickShow = (value: boolean) => {
+	const handleClickShow = (value: boolean): void => {
 		setValues({ ...values, showSelectId: value });
 	};
 

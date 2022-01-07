@@ -14,24 +14,25 @@ import {
 } from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
 import React, { useEffect, useState } from 'react';
-import { createNewConfig, fullConfig } from '../lib/createConfig';
+import { fullConfig } from '../lib/createConfig';
 import { NumberInput } from './NumberInput';
 
 interface BrightnessInputProps {
 	mode: boolean;
 	show: boolean;
 }
-
+const debugLog = true;
 export const BrightnessInput: React.FC<BrightnessInputProps> = ({ mode, show }): JSX.Element => {
 	const { translate: _ } = useI18n();
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [valueDay, setNumberValue] = useState<number>(20);
 	const [loadingLoweringMode, setLoadingLoweringMode] = useState<boolean>(false);
 
 	const handleChange = (event: SelectChangeEvent<string>) => {
-		console.log(event.target.value);
+		if (debugLog) console.log(event.target.value);
 		setLoadingLoweringMode(JSON.parse(event.target.value));
-		createNewConfig('loadingLoweringMode', JSON.parse(event.target.value));
-		console.log(fullConfig.config.brightness);
+		fullConfig.config.brightness.loadingLoweringMode = Boolean(event.target.value);
+		if (debugLog) console.log(fullConfig.config.brightness);
 	};
 
 	useEffect(() => {
@@ -41,8 +42,10 @@ export const BrightnessInput: React.FC<BrightnessInputProps> = ({ mode, show }):
 	}, [show]);
 
 	const handeleNumber = (attr: string, value: React.SetStateAction<number>) => {
+		if (debugLog) console.log(`attr => ${attr} and value => ${value}`);
 		setNumberValue(value);
-		createNewConfig(attr, value);
+		fullConfig.config.brightness[attr] = value;
+		if (debugLog) console.log(fullConfig.config.brightness);
 	};
 
 	return (

@@ -20,7 +20,7 @@ import { useI18n, useIoBrokerTheme } from 'iobroker-react/hooks';
 import React, { useEffect, useState } from 'react';
 import { HelperButton } from '../../../components/HelperButton';
 import { NumberInput } from '../../../components/NumberInput';
-import { clearScreensaverConfig, createNewConfig, fullConfig } from '../../../lib/createConfig';
+import { clearScreensaverConfig, fullConfig } from '../../../lib/createConfig';
 
 export interface ScreensaverConfigProps {
 	//props
@@ -50,7 +50,7 @@ export const ScreensaverConfig: React.FC<ScreensaverConfigProps> = ({ show, onCl
 		wallpaperUrl: '',
 		time: 2,
 	});
-
+	const [buttonActive, setButtonActive] = useState(true);
 	const { translate: _ } = useI18n();
 	const [themeName] = useIoBrokerTheme();
 
@@ -77,52 +77,85 @@ export const ScreensaverConfig: React.FC<ScreensaverConfigProps> = ({ show, onCl
 		switch (attr) {
 			case 'active':
 				if (typeof event !== 'number') {
-					createNewConfig('screensaverActive', JSON.parse(event.target.value));
-					setScreensaverValues({ ...screensaverValues, active: JSON.parse(event.target.value) });
-					if (!JSON.parse(event.target.value)) {
-						clearScreensaverConfig();
-					}
+					fullConfig.config.screensaver.screensaverActive = JSON.parse(event.target.value);
+					setScreensaverValues({
+						...screensaverValues,
+						active: JSON.parse(event.target.value),
+					});
 				}
 				break;
 
 			case 'deletion':
 				if (typeof event !== 'number') {
-					createNewConfig('screensaverDeletion', JSON.parse(event.target.value));
+					fullConfig.config.screensaver.screensaverDeletion = JSON.parse(event.target.value);
 					setScreensaverValues({ ...screensaverValues, deletion: JSON.parse(event.target.value) });
 				}
 				break;
 
 			case 'mode':
 				if (typeof event !== 'number') {
-					createNewConfig('screensaverMode', JSON.parse(event.target.value));
-					setScreensaverValues({ ...screensaverValues, mode: JSON.parse(event.target.value) });
+					fullConfig.config.screensaver.screensaverMode = JSON.parse(event.target.value);
+					setScreensaverValues({
+						...screensaverValues,
+						mode: JSON.parse(event.target.value),
+					});
+					if (
+						fullConfig.config.screensaver.screensaverMode &&
+						fullConfig.config.screensaver.screensaverYoutubeUrl !== ''
+					) {
+						setButtonActive(false);
+					} else if (
+						(!fullConfig.config.screensaver.screensaverMode &&
+							fullConfig.config.screensaver.screensaverWallpaperUrl) !== ''
+					) {
+						setButtonActive(false);
+					} else {
+						setButtonActive(true);
+					}
 				}
 				break;
 
 			case 'screensaverYoutubeUrl':
 				if (typeof event !== 'number') {
-					createNewConfig('screensaverYoutubeUrl', event.target.value);
+					fullConfig.config.screensaver.screensaverYoutubeUrl = event.target.value;
 					setScreensaverValues({ ...screensaverValues, youtubeUrl: event.target.value });
+
+					if (
+						fullConfig.config.screensaver.screensaverMode &&
+						fullConfig.config.screensaver.screensaverYoutubeUrl !== ''
+					) {
+						setButtonActive(false);
+					} else {
+						setButtonActive(true);
+					}
 				}
 				break;
 
 			case 'screensaverWallpaperUrl':
 				if (typeof event !== 'number') {
-					createNewConfig('screensaverWallpaperUrl', event.target.value);
+					fullConfig.config.screensaver.screensaverWallpaperUrl = event.target.value;
 					setScreensaverValues({ ...screensaverValues, wallpaperUrl: event.target.value });
+					if (
+						(!fullConfig.config.screensaver.screensaverMode &&
+							fullConfig.config.screensaver.screensaverWallpaperUrl) !== ''
+					) {
+						setButtonActive(false);
+					} else {
+						setButtonActive(true);
+					}
 				}
 				break;
 
 			case 'screensaverYouTubeName':
 				if (typeof event !== 'number') {
-					createNewConfig('screensaverYouTubeName', event.target.value);
+					fullConfig.config.screensaver.screensaverYouTubeName = event.target.value;
 					setScreensaverValues({ ...screensaverValues, youtubeName: event.target.value });
 				}
 				break;
 
 			case 'screensaverWallpaperName':
 				if (typeof event !== 'number') {
-					createNewConfig('screensaverWallpaperName', event.target.value);
+					fullConfig.config.screensaver.screensaverWallpaperName = event.target.value;
 					setScreensaverValues({ ...screensaverValues, wallpaperName: event.target.value });
 				}
 				break;
@@ -131,7 +164,7 @@ export const ScreensaverConfig: React.FC<ScreensaverConfigProps> = ({ show, onCl
 				if (typeof event === 'number') {
 					const value = event;
 					setScreensaverValues({ ...screensaverValues, time: value });
-					createNewConfig('screensaverTime', value);
+					fullConfig.config.screensaver.screensaverTime = value;
 				}
 				break;
 		}
@@ -147,13 +180,13 @@ export const ScreensaverConfig: React.FC<ScreensaverConfigProps> = ({ show, onCl
 		console.log(`add Screensaver configuration =>  ${JSON.stringify(fullConfig.config.screensaver)}`);
 		setScreensaverValues({ ...screensaverValues, active: false });
 		onClose();
-		// clearScreensaverConfig();
 	};
 
 	const handleClose = (): void => {
 		setScreensaverValues({ ...screensaverValues, active: false });
 		onClose();
 		clearScreensaverConfig();
+		setButtonActive(true);
 	};
 
 	return (
@@ -324,7 +357,12 @@ export const ScreensaverConfig: React.FC<ScreensaverConfigProps> = ({ show, onCl
 				) : null}
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleAdd}>{_('add')}</Button>
+				<Button
+					onClick={handleAdd}
+					disabled={fullConfig.config.screensaver.screensaverActive ? buttonActive : false}
+				>
+					{_('add')}
+				</Button>
 				<Button onClick={handleClose}>{_('Cancel')}</Button>
 			</DialogActions>
 		</Dialog>

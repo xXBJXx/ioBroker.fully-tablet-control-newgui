@@ -4,16 +4,17 @@
 import { Grid, Typography } from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
 import React, { useState } from 'react';
-import { createNewConfig, fullConfig } from '../lib/createConfig';
+import { fullConfig } from '../lib/createConfig';
 import { NumberInput } from './NumberInput';
 
 export const ManualTimeInput = (): JSX.Element => {
 	const { translate: _ } = useI18n();
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [numberValue, setNumberValue] = useState<number>(0);
 
 	const handeleNumber = (attr: string, value: React.SetStateAction<number>) => {
 		setNumberValue(value);
-		createNewConfig(attr, value);
+		fullConfig.config.brightness[attr] = value;
 	};
 
 	return (

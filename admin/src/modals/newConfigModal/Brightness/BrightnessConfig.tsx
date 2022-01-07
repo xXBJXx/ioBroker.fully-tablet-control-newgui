@@ -23,7 +23,7 @@ import { BrightnessInput } from '../../../components/BrightnessInput';
 import { HelperButton } from '../../../components/HelperButton';
 import { ManualTimeInput } from '../../../components/ManualTimeInput';
 import { NumberInput } from '../../../components/NumberInput';
-import { clearBrightnessConfig, createNewConfig, fullConfig } from '../../../lib/createConfig';
+import { clearBrightnessConfig, fullConfig } from '../../../lib/createConfig';
 
 export interface BrightnessConfigProps {
 	//props
@@ -35,10 +35,14 @@ const brightnessHelperLink = 'https://xxbjxx.github.io/language/en/Fully-Tablet-
 export const BrightnessConfig: React.FC<BrightnessConfigProps> = ({ show, onClose }): JSX.Element => {
 	const { translate: _ } = useI18n();
 	const [themeName] = useIoBrokerTheme();
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [brightnessActive, setBrightnessActive] = useState<boolean>(false);
 	const [brightnessMode, setBrightnessMode] = useState<boolean>(true);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [screenOn, setScreenOn] = useState<boolean>(true);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [brightnessTimeMode, setBrightnessTimeMode] = useState<boolean>(true);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [numberValue, setNumberValue] = useState<number>(0);
 
 	const BgColor = (): string => {
@@ -58,7 +62,7 @@ export const BrightnessConfig: React.FC<BrightnessConfigProps> = ({ show, onClos
 		switch (attr) {
 			case 'active':
 				if (event.target.value === 'true' || event.target.value == 'false') {
-					createNewConfig('brightnessActive', JSON.parse(event.target.value));
+					fullConfig.config.brightness.brightnessActive = JSON.parse(event.target.value);
 					setBrightnessActive(JSON.parse(event.target.value));
 					if (!JSON.parse(event.target.value)) {
 						clearBrightnessConfig();
@@ -67,19 +71,19 @@ export const BrightnessConfig: React.FC<BrightnessConfigProps> = ({ show, onClos
 				break;
 			case 'screen_on':
 				if (event.target.value === 'true' || event.target.value == 'false') {
-					createNewConfig('screen_on', JSON.parse(event.target.value));
+					fullConfig.config.brightness.screen_on = JSON.parse(event.target.value);
 					setScreenOn(JSON.parse(event.target.value));
 				}
 				break;
 			case 'brightness_on':
 				if (event.target.value === 'true' || event.target.value == 'false') {
-					createNewConfig('brightness_on', JSON.parse(event.target.value));
+					fullConfig.config.brightness.brightness_on = JSON.parse(event.target.value);
 					setBrightnessMode(JSON.parse(event.target.value));
 				}
 				break;
 			case 'timeMode':
 				if (event.target.value === 'true' || event.target.value == 'false') {
-					createNewConfig('timeMode', JSON.parse(event.target.value));
+					fullConfig.config.brightness.timeMode = JSON.parse(event.target.value);
 					setBrightnessTimeMode(JSON.parse(event.target.value));
 				}
 				break;
@@ -90,14 +94,12 @@ export const BrightnessConfig: React.FC<BrightnessConfigProps> = ({ show, onClos
 		if (fullConfig.config.brightness.brightnessActive) {
 			setBrightnessActive(true);
 		}
-		console.log('test useEffect');
 	}, [show]);
 
 	const handleAdd = (): void => {
 		console.log(`add Brightness configuration =>  ${JSON.stringify(fullConfig.config.brightness)}`);
 		setBrightnessActive(false);
 		onClose();
-		// clearBrightnessConfig();
 	};
 
 	const handleClose = (): void => {
@@ -108,7 +110,7 @@ export const BrightnessConfig: React.FC<BrightnessConfigProps> = ({ show, onClos
 
 	const handeleNumber = (attr: string, value: React.SetStateAction<number>): void => {
 		setNumberValue(value);
-		createNewConfig(attr, value);
+		fullConfig.config.brightness[attr] = value;
 	};
 
 	return (

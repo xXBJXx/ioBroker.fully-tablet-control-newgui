@@ -20,7 +20,7 @@ import { useI18n, useIoBrokerTheme } from 'iobroker-react/hooks';
 import React, { useEffect, useState } from 'react';
 import { ChargeID } from '../../../components/ChargeID';
 import { HelperButton } from '../../../components/HelperButton';
-import { clearChargerConfig, createNewConfig, fullConfig } from '../../../lib/createConfig';
+import { clearChargerConfig, fullConfig } from '../../../lib/createConfig';
 
 export interface ChargingConfigProps {
 	//props
@@ -47,6 +47,7 @@ export const ChargingConfig: React.FC<ChargingConfigProps> = ({ show, onClose })
 		modeActive: false,
 		chargerActive: false,
 	});
+	const [buttonActive, setButtonActive] = useState(true);
 
 	const BgColor = (): string => {
 		switch (themeName) {
@@ -61,25 +62,35 @@ export const ChargingConfig: React.FC<ChargingConfigProps> = ({ show, onClose })
 		}
 	};
 
-	const handleChange = (attr: string, event: SelectChangeEvent<string>): void => {
+	const handleChange = (attr: string, event: SelectChangeEvent<string> | boolean): void => {
 		switch (attr) {
 			case 'active':
-				if (event.target.value === 'true' || event.target.value == 'false') {
-					createNewConfig('chargerActive', JSON.parse(event.target.value));
+				if (
+					(typeof event !== 'boolean' && event.target.value === 'true') ||
+					(typeof event !== 'boolean' && event.target.value == 'false')
+				) {
+					fullConfig.config.charger.chargerActive = JSON.parse(event.target.value);
 					setChargerValues({ ...chargerValues, chargerActive: JSON.parse(event.target.value) });
-					if (!JSON.parse(event.target.value)) {
-						clearChargerConfig();
-					}
 				}
 				break;
 			case 'mode':
-				if (event.target.value === 'true' || event.target.value == 'false') {
+				if (
+					(typeof event !== 'boolean' && event.target.value === 'true') ||
+					(typeof event !== 'boolean' && event.target.value == 'false')
+				) {
 					setChargerValues({
 						...chargerValues,
 						modeActive: JSON.parse(event.target.value),
 						mode: JSON.parse(event.target.value),
 					});
-					createNewConfig('powerMode', JSON.parse(event.target.value));
+					fullConfig.config.charger.powerMode = JSON.parse(event.target.value);
+				}
+				break;
+			case 'buttonActive':
+				if (fullConfig.config.charger.chargerId !== '') {
+					setButtonActive(false);
+				} else {
+					setButtonActive(true);
 				}
 				break;
 		}
@@ -94,7 +105,7 @@ export const ChargingConfig: React.FC<ChargingConfigProps> = ({ show, onClose })
 				setChargerValues({ ...chargerValues, percentStop: JSON.parse(event.target.value) });
 				break;
 		}
-		createNewConfig(attr, Number(event.target.value));
+		fullConfig.config.charger[attr] = Number(event.target.value);
 	};
 
 	const loadItem = (start: number, end: number, key: string): JSX.Element[] => {
@@ -107,12 +118,14 @@ export const ChargingConfig: React.FC<ChargingConfigProps> = ({ show, onClose })
 
 	useEffect((): void => {
 		if (fullConfig.config.charger.chargerActive) {
-			setChargerValues({ ...chargerValues, chargerActive: true, modeActive: true });
+			setChargerValues({ ...chargerValues, chargerActive: true });
+			if (fullConfig.config.charger.powerMode) {
+				setChargerValues({ ...chargerValues, chargerActive: true, modeActive: true });
+			}
 		}
 	}, [show]);
 
 	const handleAdd = (): void => {
-		// console.log(`add charger configuration =>  ${JSON.stringify(fullConfig.config.charger)}`);
 		onClose();
 		setChargerValues({ ...chargerValues, chargerActive: false, modeActive: false });
 	};
@@ -121,6 +134,7 @@ export const ChargingConfig: React.FC<ChargingConfigProps> = ({ show, onClose })
 		onClose();
 		setChargerValues({ ...chargerValues, chargerActive: false, modeActive: false });
 		clearChargerConfig();
+		setButtonActive(true);
 	};
 
 	return (
@@ -169,7 +183,7 @@ export const ChargingConfig: React.FC<ChargingConfigProps> = ({ show, onClose })
 				</Grid>
 				{chargerValues.chargerActive ? (
 					<React.Fragment>
-						<ChargeID />
+						<ChargeID valid={(value) => handleChange('buttonActive', value)} />
 						<Grid
 							container
 							spacing={1}
@@ -270,7 +284,9 @@ export const ChargingConfig: React.FC<ChargingConfigProps> = ({ show, onClose })
 				)}
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleAdd}>{_('add')}</Button>
+				<Button onClick={handleAdd} disabled={fullConfig.config.charger.chargerActive ? buttonActive : false}>
+					{_('add')}
+				</Button>
 				<Button onClick={handleClose}>{_('Cancel')}</Button>
 			</DialogActions>
 		</Dialog>
