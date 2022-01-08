@@ -174,11 +174,16 @@ export const MotionConfig: React.FC<MotionConfigProps> = ({ show, onClose }): JS
 						}}
 					>
 						<FormControl sx={{ margin: 1, width: '65ch', marginBottom: 2 }} variant="outlined">
-							<InputLabel htmlFor="outlined-adornment-motionId">{_('motionId')}</InputLabel>
+							<InputLabel htmlFor="outlined-adornment-motionId" error={buttonActive} color={'success'}>
+								{_('motionId *')}
+							</InputLabel>
 							<Tooltip title={_('tooltipMotionId')} arrow>
 								<OutlinedInput
+									required
 									id="outlined-adornment-motionId"
 									value={fullConfig.config.motion.motionId}
+									color={'success'}
+									error={buttonActive}
 									onChange={(event) => {
 										handleChange('motionId', event);
 									}}

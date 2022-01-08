@@ -30,6 +30,7 @@ export const ChargeID: React.FC<ChargeIDProps> = ({ valid }): JSX.Element => {
 		chargerId: '',
 		showSelectId: false,
 	});
+	const [errorHandler, setErrorHandler] = useState(true);
 	const { translate: _ } = useI18n();
 
 	const handleChange =
@@ -39,8 +40,10 @@ export const ChargeID: React.FC<ChargeIDProps> = ({ valid }): JSX.Element => {
 			fullConfig.config.charger[attr] = event.target.value;
 			if (event.target.value !== '') {
 				valid(false);
+				setErrorHandler(false);
 			} else {
 				valid(true);
+				setErrorHandler(true);
 			}
 		};
 
@@ -64,9 +67,14 @@ export const ChargeID: React.FC<ChargeIDProps> = ({ valid }): JSX.Element => {
 				}}
 			>
 				<FormControl sx={{ margin: 1, width: '65ch', marginBottom: 2 }} variant="outlined">
-					<InputLabel htmlFor="outlined-adornment-chargerId">{_('chargerId')}</InputLabel>
+					<InputLabel htmlFor="outlined-adornment-chargerId" error={errorHandler} color="success">
+						{_('chargerId *')}
+					</InputLabel>
 					<Tooltip title={_('tooltipChargerId')} arrow>
 						<OutlinedInput
+							required
+							error={errorHandler}
+							color="success"
 							id="outlined-adornment-chargerId"
 							value={fullConfig.config.charger.chargerId}
 							onChange={handleChange('chargerId')}

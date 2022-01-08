@@ -237,7 +237,7 @@ export const ScreensaverConfig: React.FC<ScreensaverConfigProps> = ({ show, onCl
 							arrow
 							placement="right"
 						>
-							<Box sx={{ minWidth: 120 }}>
+							<Box sx={{ margin: 1, minWidth: 120 }}>
 								<FormControl fullWidth>
 									<InputLabel id="screensaverDeletion-select-label">
 										{_('screensaverDeletion')}
@@ -276,9 +276,8 @@ export const ScreensaverConfig: React.FC<ScreensaverConfigProps> = ({ show, onCl
 						>
 							<Tooltip title={_('tooltipTabletName')} arrow>
 								<TextField
-									label={screensaverValues.mode ? _('Screensaver YouTube Name') : _('Wallpaper Name')}
-									color="success"
-									sx={{ minWidth: 250 }}
+									label={screensaverValues.mode ? _(`Screensaver YouTube Name`) : _(`Wallpaper Name`)}
+									sx={{ margin: 1, minWidth: 200 }}
 									value={
 										screensaverValues.mode
 											? fullConfig.config.screensaver.screensaverYouTubeName
@@ -287,8 +286,8 @@ export const ScreensaverConfig: React.FC<ScreensaverConfigProps> = ({ show, onCl
 									placeholder="Aquarium"
 									onChange={(event) => {
 										screensaverValues.mode
-											? handleChange('screensaverYouTubeName', event)
-											: handleChange('screensaverWallpaperName', event);
+											? handleChange(`screensaverYouTubeName`, event)
+											: handleChange(`screensaverWallpaperName`, event);
 									}}
 								/>
 							</Tooltip>
@@ -313,7 +312,7 @@ export const ScreensaverConfig: React.FC<ScreensaverConfigProps> = ({ show, onCl
 								label={'ScreensaverTime'}
 								tooltip={'screensaverTimeTooltip'}
 								defaultValue={2}
-								sx={{ margin: 1, width: '110', textAlignLast: 'center' }}
+								sx={{ margin: 1, width: '140', textAlignLast: 'center' }}
 								value={fullConfig.config.screensaver.screensaverTime}
 								createNewConfig={(value) => handleChange('time', value)}
 							/>
@@ -332,9 +331,11 @@ export const ScreensaverConfig: React.FC<ScreensaverConfigProps> = ({ show, onCl
 						>
 							<Tooltip title={_('tooltipUrl')} arrow>
 								<TextField
+									required
 									label={screensaverValues.mode ? _('YouTube URL') : _('Wallpaper URL')}
 									color="success"
 									fullWidth
+									error={buttonActive}
 									value={
 										screensaverValues.mode
 											? fullConfig.config.screensaver.screensaverYoutubeUrl
@@ -347,8 +348,8 @@ export const ScreensaverConfig: React.FC<ScreensaverConfigProps> = ({ show, onCl
 									}
 									onChange={(event) => {
 										screensaverValues.mode
-											? handleChange('screensaverYoutubeUrl', event)
-											: handleChange('screensaverWallpaperUrl', event);
+											? handleChange(`screensaverYoutubeUrl`, event)
+											: handleChange(`screensaverWallpaperUrl`, event);
 									}}
 								/>
 							</Tooltip>

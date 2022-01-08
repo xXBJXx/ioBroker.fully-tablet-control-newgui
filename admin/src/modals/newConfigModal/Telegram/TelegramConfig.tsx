@@ -187,7 +187,7 @@ export const TelegramConfig: React.FC<TelegramConfigProps> = ({ show, onClose })
 							flexDirection: 'row',
 						}}
 					>
-						<FormControl sx={{ m: 1 }} fullWidth>
+						<FormControl sx={{ m: 1 }} fullWidth error={buttonActive} color={'success'}>
 							<InputLabel id="telegramUser-multiple-chip-label">{_('Telegram User')}</InputLabel>
 							<Select
 								labelId="telegramUser-multiple-chip-label"
