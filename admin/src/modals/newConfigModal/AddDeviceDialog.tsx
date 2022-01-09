@@ -93,7 +93,6 @@ export const AddDeviceDialog: React.FC<AddDeviceDialogProps> = ({ addDevice }): 
 					</Button>
 				</Paper>
 			</Grid>
-
 			<Dialog open={open} onClose={handleClose}>
 				<DialogTitle sx={{ bgcolor: BgColor, textAlignLast: 'center', fontSize: '1.4rem' }}>
 					{_('Tablet Config')}

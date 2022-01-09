@@ -94,7 +94,9 @@ export const ImageShotConfig: React.FC<ImageShotConfigProps> = ({ show, onClose 
 
 	const handeleNumber = (attr: string, value: React.SetStateAction<number>): void => {
 		setNumberValue(value);
-		fullConfig.config.imageCapture[attr] = value;
+		if (typeof value === 'number') {
+			fullConfig.config.imageCapture[attr] = value;
+		}
 	};
 
 	return (
