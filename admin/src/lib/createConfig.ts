@@ -1,17 +1,20 @@
 import { v4 as uuidv4 } from 'uuid';
 
-interface fullConfig {
+interface fullConfigProps {
 	id: string;
+	[key: string]: string | object;
 	config: {
+		[key: string]: object | string | number;
 		interval: number;
 		name: string;
-		Login: { ip: string; port: number; password: string };
+		Login: { ip: string; port: number; password: string; [key: string]: boolean | string | number };
 		charger: {
 			chargerActive: boolean;
 			chargerId: string;
 			powerMode: false | true | 'off';
 			loadStart: number;
 			loadStop: number;
+			[key: string]: string | boolean | number;
 		};
 		brightness: {
 			brightnessActive: boolean;
@@ -29,6 +32,7 @@ interface fullConfig {
 			midTimeBrightness: number;
 			nightBrightness: number;
 			loadingLowering: number;
+			[key: string]: boolean | string | number;
 		};
 		screensaver: {
 			screensaverActive: boolean;
@@ -39,9 +43,14 @@ interface fullConfig {
 			screensaverWallpaperUrl: string;
 			screensaverMode: boolean;
 			screensaverTime: number;
+			[key: string]: boolean | string | number;
 		};
-		motion: { motionActive: boolean; motionId: string };
-		telegram: { telegramActive: boolean; multipleTelegramUserName: string | string[] };
+		motion: { motionActive: boolean; motionId: string; [key: string]: boolean | string };
+		telegram: {
+			telegramActive: boolean;
+			multipleTelegramUserName: string | string[];
+			[key: string]: boolean | string | string[];
+		};
 		imageCapture: {
 			autoMotionDetection: boolean;
 			recordMode: boolean;
@@ -49,11 +58,12 @@ interface fullConfig {
 			singleShotSafe: number;
 			seriesShotSafe: number;
 			imageTimeout: number;
+			[key: string]: boolean | string | number;
 		};
 	};
 }
 
-export let fullConfig: fullConfig = {
+export let fullConfig: fullConfigProps = {
 	id: uuidv4(),
 	config: {
 		interval: 30,
@@ -115,143 +125,6 @@ export let fullConfig: fullConfig = {
 		},
 	},
 };
-
-// export const createNewConfig = (attr: string, value: any): any => {
-// 	switch (attr) {
-// 		case 'name':
-// 			fullConfig.config.name = value;
-// 			break;
-// 		case 'interval':
-// 			fullConfig.config.interval = value;
-// 			break;
-// 		case 'ip':
-// 			fullConfig.config.Login.ip = value;
-// 			break;
-// 		case 'port':
-// 			fullConfig.config.Login.port = value;
-// 			break;
-// 		case 'password':
-// 			fullConfig.config.Login.password = value;
-// 			break;
-// 		case 'chargerActive':
-// 			fullConfig.config.charger.chargerActive = value;
-// 			break;
-// 		case 'chargerId':
-// 			fullConfig.config.charger.chargerId = value;
-// 			break;
-// 		case 'powerMode':
-// 			fullConfig.config.charger.powerMode = value;
-// 			break;
-// 		case 'loadStart':
-// 			fullConfig.config.charger.loadStart = value;
-// 			// console.log(fullConfig.config.charger);
-// 			break;
-// 		case 'loadStop':
-// 			fullConfig.config.charger.loadStop = value;
-// 			// console.log(fullConfig.config.charger);
-// 			break;
-// 		case 'brightnessActive':
-// 			fullConfig.config.brightness.brightnessActive = value;
-// 			// console.log(fullConfig.config.brightness.brightnessActive);
-// 			break;
-// 		case 'screen_on':
-// 			fullConfig.config.brightness.screen_on = value;
-// 			break;
-// 		case 'brightness_on':
-// 			fullConfig.config.brightness.brightness_on = value;
-// 			break;
-// 		case 'brightnessInterval':
-// 			fullConfig.config.brightness.brightnessInterval = value;
-// 			break;
-// 		case 'timeMode':
-// 			fullConfig.config.brightness.timeMode = value;
-// 			break;
-// 		case 'loadingLoweringMode':
-// 			fullConfig.config.brightness.loadingLoweringMode = value;
-// 			break;
-// 		case 'astroSelectDay':
-// 			fullConfig.config.brightness.astroSelectDay = value;
-// 			break;
-// 		case 'astroSelectNight':
-// 			fullConfig.config.brightness.astroSelectNight = value;
-// 			break;
-// 		case 'dayTime':
-// 			fullConfig.config.brightness.dayTime = value;
-// 			break;
-// 		case 'midTime':
-// 			fullConfig.config.brightness.midTime = value;
-// 			break;
-// 		case 'nightTime':
-// 			fullConfig.config.brightness.nightTime = value;
-// 			break;
-// 		case 'dayBrightness':
-// 			fullConfig.config.brightness.dayBrightness = value;
-// 			break;
-// 		case 'midTimeBrightness':
-// 			fullConfig.config.brightness.midTimeBrightness = value;
-// 			break;
-// 		case 'nightBrightness':
-// 			fullConfig.config.brightness.nightBrightness = value;
-// 			break;
-// 		case 'loadingLowering':
-// 			fullConfig.config.brightness.loadingLowering = value;
-// 			break;
-// 		case 'screensaverActive':
-// 			fullConfig.config.screensaver.screensaverActive = value;
-// 			break;
-// 		case 'screensaverDeletion':
-// 			fullConfig.config.screensaver.screensaverDeletion = value;
-// 			break;
-// 		case 'screensaverYouTubeName':
-// 			fullConfig.config.screensaver.screensaverYouTubeName = value;
-// 			break;
-// 		case 'screensaverWallpaperName':
-// 			fullConfig.config.screensaver.screensaverWallpaperName = value;
-// 			break;
-// 		case 'screensaverYoutubeUrl':
-// 			fullConfig.config.screensaver.screensaverYoutubeUrl = value;
-// 			break;
-// 		case 'screensaverWallpaperUrl':
-// 			fullConfig.config.screensaver.screensaverWallpaperUrl = value;
-// 			break;
-// 		case 'screensaverMode':
-// 			fullConfig.config.screensaver.screensaverMode = value;
-// 			break;
-// 		case 'screensaverTime':
-// 			fullConfig.config.screensaver.screensaverTime = value;
-// 			break;
-// 		case 'motionActive':
-// 			fullConfig.config.motion.motionActive = value;
-// 			break;
-// 		case 'motionId':
-// 			fullConfig.config.motion.motionId = value;
-// 			break;
-// 		case 'autoMotionDetection':
-// 			fullConfig.config.imageCapture.autoMotionDetection = value;
-// 			break;
-// 		case 'recordMode':
-// 			fullConfig.config.imageCapture.recordMode = value;
-// 			break;
-// 		case 'seriesShotCount':
-// 			fullConfig.config.imageCapture.seriesShotCount = value;
-// 			break;
-// 		case 'singleShotSafe':
-// 			fullConfig.config.imageCapture.singleShotSafe = value;
-// 			break;
-// 		case 'seriesShotSafe':
-// 			fullConfig.config.imageCapture.seriesShotSafe = value;
-// 			break;
-// 		case 'imageTimeout':
-// 			fullConfig.config.imageCapture.imageTimeout = value;
-// 			break;
-// 		case 'multipleTelegramUserName':
-// 			fullConfig.config.telegram.multipleTelegramUserName = value;
-// 			break;
-// 		case 'telegramActive':
-// 			fullConfig.config.telegram.telegramActive = value;
-// 			break;
-// 	}
-// };
 
 export const clearConfig = (): void => {
 	console.log('config input was deleted');
