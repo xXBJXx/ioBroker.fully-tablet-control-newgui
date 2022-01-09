@@ -44,7 +44,9 @@ export const BrightnessInput: React.FC<BrightnessInputProps> = ({ mode, show }):
 	const handeleNumber = (attr: string, value: React.SetStateAction<number>) => {
 		if (debugLog) console.log(`attr => ${attr} and value => ${value}`);
 		setNumberValue(value);
-		fullConfig.config.brightness[attr] = value;
+		if (typeof value === 'number') {
+			fullConfig.config.brightness[attr] = value;
+		}
 		if (debugLog) console.log(fullConfig.config.brightness);
 	};
 

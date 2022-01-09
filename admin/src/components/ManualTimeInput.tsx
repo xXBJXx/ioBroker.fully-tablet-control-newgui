@@ -14,7 +14,9 @@ export const ManualTimeInput = (): JSX.Element => {
 
 	const handeleNumber = (attr: string, value: React.SetStateAction<number>) => {
 		setNumberValue(value);
-		fullConfig.config.brightness[attr] = value;
+		if (typeof value === 'number') {
+			fullConfig.config.brightness[attr] = value;
+		}
 	};
 
 	return (
