@@ -1,12 +1,12 @@
 {
-  "name": "iobroker.fully-tablet-control",
-  "version": "0.3.6-1",
+  "name": "iobroker.fully-tablet-control-newgui",
+  "version": "0.0.1",
   "description": "fully-tablet-control",
   "author": {
     "name": "xXBJXx",
     "email": "issi.dev.iobroker@gmail.com"
   },
-  "homepage": "https://github.com/xXBJXx/ioBroker.fully-tablet-control-newGui",
+  "homepage": "https://github.com/xXBJXx/ioBroker.fully-tablet-control-newgui",
   "license": "MIT",
   "keywords": [
     "ioBroker",
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/xXBJXx/ioBroker.fully-tablet-control.newGui"
+    "url": "https://github.com/xXBJXx/ioBroker.fully-tablet-control-newgui"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.5.1",
@@ -123,7 +123,7 @@
     "instrument": true
   },
   "bugs": {
-    "url": "https://github.com/xXBJXx/ioBroker.fully-tablet-control.newGui/issues"
+    "url": "https://github.com/xXBJXx/ioBroker.fully-tablet-control.newgui/issues"
   },
   "readmeFilename": "README.md"
 }

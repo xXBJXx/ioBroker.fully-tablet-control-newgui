@@ -1,6 +1,6 @@
 {
   "common": {
-	"name": "fully-tablet-control-newGui",
+	"name": "fully-tablet-control-newgui",
 	"version": "0.0.1",
 	"news": {
 	  "0.0.1": {
@@ -38,8 +38,8 @@
 	"main": "build/main.js",
 	"icon": "fully-tablet-control.png",
 	"enabled": false,
-	"extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.fully-tablet-control-newGui/master/admin/fully-tablet-control.png",
-	"readme": "https://github.com/xXBJXx/ioBroker.fully-tablet-control-newGui/blob/master/README.md",
+	"extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.fully-tablet-control-newgui/master/admin/fully-tablet-control.png",
+	"readme": "https://github.com/xXBJXx/ioBroker.fully-tablet-control-newgui/blob/master/README.md",
 	"loglevel": "info",
 	"mode": "daemon",
 	"type": "general",
