@@ -1,135 +1,106 @@
-![Logo](admin/fully_react_test.png)
+![Logo](admin/tablet-control.png)
 
-# ioBroker.fully_react_test
+# ioBroker.fully-tablet-control
 
-[![NPM version](https://img.shields.io/npm/v/iobroker.fully_react_test.svg)](https://www.npmjs.com/package/iobroker.fully_react_test)
-[![Downloads](https://img.shields.io/npm/dm/iobroker.fully_react_test.svg)](https://www.npmjs.com/package/iobroker.fully_react_test)
-![Number of Installations](https://iobroker.live/badges/fully_react_test-installed.svg)
-![Current version in stable repository](https://iobroker.live/badges/fully_react_test-stable.svg)
-[![Dependency Status](https://img.shields.io/david/xXBJXx/iobroker.fully_react_test.svg)](https://david-dm.org/xXBJXx/iobroker.fully_react_test)
+[![NPM version](http://img.shields.io/npm/v/iobroker.fully-tablet-control.svg?logo=npm)](https://www.npmjs.com/package/iobroker.fully-tablet-control)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.fully-tablet-control.svg?logo=npm)](https://www.npmjs.com/package/iobroker.fully-tablet-control)
+![Installations (latest)](http://iobroker.live/badges/fully-tablet-control-installed.svg)
+<!--![(stable)](http://iobroker.live/badges/fully-tablet-control-stable.svg)-->
+![Test and Release](https://github.com/xXBJXx/iobroker.fully-tablet-control/workflows/Test%20and%20Release/badge.svg)
 
-[![NPM](https://nodei.co/npm/iobroker.fully_react_test.png?downloads=true)](https://nodei.co/npm/iobroker.fully_react_test/)
+[![NPM](https://nodei.co/npm/iobroker.fully-tablet-control.png?downloads=true)](https://nodei.co/npm/iobroker.fully-tablet-control/)
 
-**Tests:** ![Test and Release](https://github.com/xXBJXx/ioBroker.fully_react_test/workflows/Test%20and%20Release/badge.svg)
+# Fully Tablet Control Adapter für ioBroker
 
-## fully_react_test adapter for ioBroker
+**This adapter uses the service Sentry.io to automatically report exceptions and code errors and new device schemas to me as the developer.
+More details see below! [Sentry](#sentry)**
 
-Describe your project here
+### Adapter Documentation
+A detailed description can be found **[Adapter Documentation](https://xxbjxx.github.io/language/en/Fully-Tablet-Control/01.description.html)**
 
-## Developer manual
+## Control your tablet with Fully Kiosk Browser (**Plus License required and Remote Administration must be active and set up**).
 
-This section is intended for the developer. It can be deleted later
+### !!! ATTENTION !!! BEFORE CONFIGURING THE ADAPTER MUST BE STARTED OTHERWISE NO CONFIGURATION IS POSSIBLE.
+![login](admin/img/Adapter_Offline.png)
 
-### Getting started
+## Browser Admin Login
 
-You are almost done, only a few steps left:
+![login](admin/img/browser-admin-login.png)
 
-1. Create a new repository on GitHub with the name `ioBroker.fully_react_test`
+### Here the tablets are entered, and the query interval is defined
 
-1. Push all files to the GitHub repo. The creator has already set up the local repository for you:
-   ```bash
-   git push origin main
-   ```
-1. Add a new secret under https://github.com/xXBJXx/ioBroker.fully_react_test/settings/secrets. It must be named `AUTO_MERGE_TOKEN` and contain a
-   personal access token with push access to the repository, e.g. yours. You can create a new token under https://github.com/settings/tokens.
+1. query interval set to 30 sec by default (smallest possible value is 10 sec but not recommended).
 
-1. Head over to [src/main.ts](src/main.ts) and start programming!
+2. timer in minutes to bring the Fully Browser back to the foreground (recommended for Amazon Fire tablet with Alexa as
+   the Fully Browser is set to the background when Alexa is triggered on the tablet e.g. "Alexa how is the weather today").
 
-### Best Practices
+3. tablet name is used to create the different tablets in separate folder, if no name is specified the ip address is used as name.
 
-We've collected some [best practices](https://github.com/ioBroker/ioBroker.repositories#development-and-coding-best-practices) regarding ioBroker
-development and coding in general. If you're new to ioBroker or Node.js, you should check them out. If you're already experienced, you should also
-take a look at them - you might learn something new :)
+4. ip address of your tablet.
 
-### Scripts in `package.json`
+5. here you can enter the port if you have changed it.
 
-Several npm scripts are predefined for your convenience. You can run them using `npm run <scriptname>`
-| Script name | Description | |-------------|-------------| | `build:parcel` | Compile the React sources. | | `watch:parcel` | Compile the React
-sources and watch for changes. | | `build:ts` | Compile the TypeScript sources. | | `watch:ts` | Compile the TypeScript sources and watch for changes.
-| | `watch` | Shortcut for `npm run watch:ts` | | `build` | Compile the TypeScript and the React sources. | | `test:ts` | Executes the tests you
-defined in `*.test.ts` files. | | `test:package` | Ensures your `package.json` and `io-package.json` are valid. | | `test:unit` | Tests the adapter
-startup with unit tests (fast, but might require module mocks to work). | | `test:integration` | Tests the adapter startup with an actual instance of
-ioBroker. | | `test` | Performs a minimal test run on package files and your tests. | | `check` | Performs a type-check on your code (without
-compiling anything). | | `coverage` | Generates code coverage using your test files. | | `lint` | Runs `ESLint` to check your code for formatting
-errors and potential bugs. | | `release` | Creates a new release, see [`@alcalzone/release-script`](https://github.com/AlCalzone/release-script#usage)
-for more details. |
+6. password of Fully Remote Admin **(Plus License required)**.
 
-### Writing tests
+7. here you can disable individual tablets so that they are no longer queried.
 
-When done right, testing code is invaluable, because it gives you the confidence to change your code while knowing exactly if and when something
-breaks. A good read on the topic of test-driven development is https://hackernoon.com/introduction-to-test-driven-development-tdd-61a13bc92d92.
-Although writing tests before the code might seem strange at first, but it has very clear upsides.
+8. with this button you can start a check if the tablet is reachable, for this you have to enter Ip / Port and Password.
+   If a tablet is not immediately accessible, or the answer takes longer a load symbol is indicated then please simply wait,
+   until the result is indicated \
+   ![login](admin/img/Loading.png) \
+   As soon as the result is available a window will pop up, where you can see which tablet is online or offline.\
+   ![login](admin/img/Device_test.png)
+## For each tablet, which was created on the first page, an entry must be created in the table on the next pages!
 
-The template provides you with basic tests for the adapter startup and package files. It is recommended that you add your own tests into the mix.
 
-### Publishing the adapter
+## Sentry
+### What is Sentry.io and what is reported to the servers of that company?
 
-Using GitHub Actions, you can enable automatic releases on npm whenever you push a new git tag that matches the form
-`v<major>.<minor>.<patch>`. We **strongly recommend** that you do. The necessary steps are described in `.github/workflows/test-and-release.yml`.
+Sentry.io is a service for developers to get an overview about errors from their applications. And exactly this is
+implemented in this adapter.
 
-Since you installed the release script, you can create a new release simply by calling:
+When the adapter crashes, or another Code error happens, this error message that also appears in the ioBroker log is
+submitted to Sentry. When you
+allowed iobroker GmbH to collect diagnostic data then also your installation ID (this is just a unique ID without any
+additional infos about you, email name or such)
+is included. This allows Sentry to group errors and show how many unique users are affected by such an error.
+All of this helps me to provide error free adapters that basically never crashs.
 
-```bash
-npm run release
-```
+For more details and information on how to disable error reporting, please refer to the
+[Sentry plugin documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry) <br>
+Sentry Reporting is used from js-controller 3.0.
 
-Additional command line options for the release script are explained in the
-[release-script documentation](https://github.com/AlCalzone/release-script#command-line).
-
-To get your adapter released in ioBroker, please refer to the documentation
-of [ioBroker.repositories](https://github.com/ioBroker/ioBroker.repositories#requirements-for-adapter-to-get-added-to-the-latest-repository).
-
-### Test the adapter manually on a local ioBroker installation
-
-In order to install the adapter locally without publishing, the following steps are recommended:
-
-1. Create a tarball from your dev directory:
-   ```bash
-   npm pack
-   ```
-1. Upload the resulting file to your ioBroker host
-1. Install it locally (The paths are different on Windows):
-   ```bash
-   cd /opt/iobroker
-   npm i /path/to/tarball.tgz
-   ```
-
-For later updates, the above procedure is not necessary. Just do the following:
-
-1. Overwrite the changed files in the adapter directory (`/opt/iobroker/node_modules/iobroker.fully_react_test`)
-1. Execute `iobroker upload fully_react_test` on the ioBroker host
+_______________________________
 
 ## Changelog
-
 <!--
-	Placeholder for the next version (at the beginning of the line):
-	### **WORK IN PROGRESS**
+ Placeholder for the next version (at the beginning of the line):
+ ### __WORK IN PROGRESS__ ( - falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben )
 -->
-### 0.0.4-alpha.0 (2021-11-12)
 
-* (xXBJXx) test release 2
-
-### 0.0.3-alpha.0 (2021-11-12)
-
-* (xXBJXx) test release
-
-### 0.0.2-alpha.0 (2021-11-12)
-
+### 0.0.1 (2021-10-17)
 * (xXBJXx) initial release
 
 ## License
 
 MIT License
 
-Copyright (c) 2021-2022 xXBJXx <issi.dev.iobroker@gmail.com>
+Copyright (c) 2020-2022 xXBJXx
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to
-deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

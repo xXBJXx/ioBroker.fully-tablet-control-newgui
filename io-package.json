@@ -1,6 +1,6 @@
 {
   "common": {
-	"name": "fully_react_test",
+	"name": "fully-tablet-control-newGui",
 	"version": "0.0.1",
 	"news": {
 	  "0.0.1": {
@@ -16,47 +16,30 @@
 		"zh-cn": "首次出版"
 	  }
 	},
-	"title": "Fully React test",
+	"title": "Fully Tablet Control",
 	"titleLang": {
-	  "en": "Fully React test",
-	  "de": "Fully React test",
-	  "ru": "Fully React test",
-	  "pt": "Fully React test",
-	  "nl": "Fully React test",
-	  "fr": "Fully React test",
-	  "it": "Fully React test",
-	  "es": "Fully React test",
-	  "pl": "Fully React test",
-	  "zh-cn": "Fully React test"
+	  "en": "Fully Tablet Control"
 	},
 	"desc": {
-	  "en": "fully_react_test",
-	  "de": "fully_react_test",
-	  "ru": "fully_react_test",
-	  "pt": "fully_react_test",
-	  "nl": "fully_react_test",
-	  "fr": "fully_react_test",
-	  "it": "fully_react_test",
-	  "es": "fully_react_test",
-	  "pl": "fully_react_test",
-	  "zh-cn": "fully_react_test"
+	  "en": "Tablet control with the FullyBrowser (charge control, screen saver, brightness control)",
+	  "de": "Fully Tablet Steuerung, mit dem FullyBrowser (Ladekontrolle, Bildschirmschoner, Helligkeit)"
 	},
 	"authors": [
 	  "xXBJXx <issi.dev.iobroker@gmail.com>"
 	],
 	"keywords": [
 	  "ioBroker",
-	  "template",
-	  "Smart Home",
-	  "home automation"
+	  "Tablet-Control",
+	  "Tablet",
+	  "Fully Kiosk Browser"
 	],
 	"license": "MIT",
 	"platform": "Javascript/Node.js",
 	"main": "build/main.js",
-	"icon": "fully_react_test.png",
-	"enabled": true,
-	"extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.fully_react_test/main/admin/fully_react_test.png",
-	"readme": "https://github.com/xXBJXx/ioBroker.fully_react_test/blob/main/README.md",
+	"icon": "fully-tablet-control.png",
+	"enabled": false,
+	"extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.fully-tablet-control-newGui/master/admin/fully-tablet-control.png",
+	"readme": "https://github.com/xXBJXx/ioBroker.fully-tablet-control-newGui/blob/master/README.md",
 	"loglevel": "info",
 	"mode": "daemon",
 	"type": "general",
@@ -65,56 +48,19 @@
 	"dataSource": "poll",
 	"materialize": true,
 	"messagebox": true,
+	"plugins": {
+	  "sentry": {
+		"dsn": "https://8520b03c99c4437da90e414ab4bd1959@o384969.ingest.sentry.io/5217020"
+	  }
+	},
 	"dependencies": [
 	  {
-		"js-controller": ">=2.0.0"
+		"js-controller": ">=3.3.22"
 	  }
-	]
+	],
+	"tier": 3
   },
-  "native": {
-	"tablets": [
-	  {
-		"id": 0,
-		"config": {
-		  "active": false,
-		  "interval": 30,
-		  "name": "",
-		  "Login": {
-			"ip": "",
-			"port": 2323,
-			"password": ""
-		  },
-		  "charger": {
-			"active": false,
-			"chargerId": "",
-			"powerMode": "false",
-			"loadStart": 20,
-			"loadStop": 85
-		  }
-		}
-	  },
-	  {
-		"id": 0,
-		"config": {
-		  "active": false,
-		  "interval": 30,
-		  "name": "",
-		  "Login": {
-			"ip": "",
-			"port": 2323,
-			"password": ""
-		  },
-		  "charger": {
-			"active": false,
-			"chargerId": "",
-			"powerMode": "false",
-			"loadStart": 20,
-			"loadStop": 85
-		  }
-		}
-	  }
-	]
-  },
+  "native": {},
   "objects": [],
   "instanceObjects": [
 	{
