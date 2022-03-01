@@ -71,7 +71,7 @@
     "source-map-support": "^0.5.21",
     "tiny-glob": "^0.2.9",
     "ts-node": "^10.5.0",
-    "typescript": "~4.5.5",
+    "typescript": "~4.6.2",
     "react-zoom-pan-pinch": "^2.1.3"
   },
   "main": "build/main.js",
