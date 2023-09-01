@@ -18,7 +18,7 @@
     "url": "https://github.com/xXBJXx/ioBroker.fully-tablet-control-newgui"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.6.8",
+    "@iobroker/adapter-core": "^3.0.3",
     "axios": "^0.27.2",
     "cron": "^1.8.3",
     "uuid": "^8.3.2"
